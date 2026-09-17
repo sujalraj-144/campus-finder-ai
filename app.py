@@ -336,6 +336,121 @@ st.markdown("""
         color: #64748b;
         font-size: 0.82rem;
     }
+
+    /* Institutional SSO Bar & Session Badges */
+    .sso-ribbon {
+        background: #090e1a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 12px 18px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .sso-user-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        font-weight: 700;
+    }
+
+    .sso-student-badge {
+        background: rgba(14, 165, 233, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(14, 165, 233, 0.35);
+    }
+
+    .sso-admin-badge {
+        background: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .sso-guest-badge {
+        background: rgba(148, 163, 184, 0.15);
+        color: #cbd5e1;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .admin-console-card {
+        background: #0d1527;
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        border-radius: 14px;
+        padding: 22px;
+        margin-bottom: 20px;
+    }
+
+    .admin-status-pill {
+        display: inline-block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.76rem;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 6px;
+        text-transform: uppercase;
+    }
+
+    .status-approved {
+        background: rgba(34, 197, 94, 0.15);
+        color: #4ade80;
+        border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .status-pending {
+        background: rgba(234, 179, 8, 0.15);
+        color: #facc15;
+        border: 1px solid rgba(234, 179, 8, 0.3);
+    }
+
+    .status-handed {
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .status-rejected {
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .student-id-card {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        border: 2px solid rgba(56, 189, 248, 0.4);
+        border-radius: 16px;
+        padding: 24px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+    }
+
+    .student-id-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #38bdf8, #818cf8);
+    }
+
+    .broadcast-banner {
+        background: linear-gradient(90deg, rgba(239, 68, 68, 0.18), rgba(245, 158, 11, 0.18));
+        border: 1px solid rgba(239, 68, 68, 0.45);
+        border-radius: 10px;
+        padding: 10px 16px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #fecaca;
+        font-size: 0.88rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -439,6 +554,161 @@ if "telegram_logs" not in st.session_state:
 
 if "ocr_dispatch_logs" not in st.session_state:
     st.session_state.ocr_dispatch_logs = []
+
+if "student_directory" not in st.session_state:
+    st.session_state.student_directory = {
+        "24K91A0501": {
+            "name": "Rohan Sharma",
+            "roll": "24K91A0501",
+            "email": "24k91a0501@tkrcet.ac.in",
+            "alt_email": "rohan.sharma.cse@gmail.com",
+            "phone": "+91 98123 45678",
+            "dept": "Computer Science & Engineering (CSE)",
+            "batch": "2024 — 2028 (1st Year / B.Tech)",
+            "residence": "College Campus Hostel (Block B, Room 214)",
+            "blood_group": "O+",
+            "emergency_contact": "+91 98480 11223 (Father - S. Sharma)",
+            "id_status": "Active / Verified Smart ID",
+            "belongings": [
+                {
+                    "id": "BEL-0501-1",
+                    "title": "Dell Inspiron 15 (Navy Blue)",
+                    "category": "Electronics & Computing",
+                    "serial": "DELL-INSP-9921X",
+                    "secret_marker": "Cyan AI sticker next to trackpad",
+                    "date_added": "2026-08-10"
+                },
+                {
+                    "id": "BEL-0501-2",
+                    "title": "Casio fx-991EX ClassWiz Calculator",
+                    "category": "Electronics & Computing",
+                    "serial": "CASIO-991-8842",
+                    "secret_marker": "Initials 'RS' engraved on back battery cover",
+                    "date_added": "2026-08-12"
+                }
+            ]
+        },
+        "24K91A0412": {
+            "name": "Priya Patel",
+            "roll": "24K91A0412",
+            "email": "24k91a0412@tkrcet.ac.in",
+            "alt_email": "priya.patel.ece@gmail.com",
+            "phone": "+91 98765 01234",
+            "dept": "Electronics & Communication Engineering (ECE)",
+            "batch": "2024 — 2028 (1st Year / B.Tech)",
+            "residence": "Day Scholar (Campus Bus Route #14 — Dilsukhnagar)",
+            "blood_group": "B+",
+            "emergency_contact": "+91 98765 99887 (Mother - K. Patel)",
+            "id_status": "Active / Verified Smart ID",
+            "belongings": [
+                {
+                    "id": "BEL-0412-1",
+                    "title": "Apple AirPods Pro Wireless Case",
+                    "category": "Audio & Mobile Gadgets",
+                    "serial": "APP-PRO-77319",
+                    "secret_marker": "Black Spigen silicone case with carabiner",
+                    "date_added": "2026-08-15"
+                }
+            ]
+        }
+    }
+
+if "admin_directory" not in st.session_state:
+    st.session_state.admin_directory = {
+        "TKRCET-SEC-01": {
+            "admin_id": "TKRCET-SEC-01",
+            "name": "Head Constable M. Srinivas",
+            "role_title": "Campus Chief Security Officer & Proctor",
+            "desk": "Main Administrative Block & Gate 1 Post",
+            "badge": "CAMPUS SECURITY COMMAND",
+            "email": "security.chief@tkrcet.ac.in",
+            "phone": "+91 98490 12345"
+        },
+        "TKRCET-LIB-01": {
+            "admin_id": "TKRCET-LIB-01",
+            "name": "Mr. K. V. Rao",
+            "role_title": "Chief Librarian & Digital Assets Custodian",
+            "desk": "Central Library — 2nd Floor Digital Wing",
+            "badge": "ACADEMIC ASSETS CUSTODIAN",
+            "email": "library.custody@tkrcet.ac.in",
+            "phone": "+91 98490 54321"
+        }
+    }
+
+if "current_user" not in st.session_state:
+    st.session_state.current_user = {
+        "role": "student",
+        "id": "24K91A0501"
+    }
+
+if "claims_db" not in st.session_state:
+    st.session_state.claims_db = [
+        {
+            "claim_id": "TKRCET-CLM-8801",
+            "item_id": "TKRCET-F101",
+            "item_title": "Navy Blue Dell Laptop (15-inch)",
+            "claimant_name": "Rohan Sharma",
+            "claimant_roll": "24K91A0501",
+            "claimant_dept": "Computer Science & Engineering (CSE)",
+            "claimant_phone": "+91 98123 45678",
+            "claim_timestamp": "2026-09-17 11:20",
+            "secret_submitted": "ai sticker",
+            "verification_result": "MATCH VERIFIED (Zero-Knowledge Hash Match)",
+            "status": "APPROVED — READY FOR PHYSICAL COLLECTION",
+            "token_id": "TKRCET-CLR-F1010501",
+            "desk": "Central Library — 2nd Floor Digital Wing",
+            "reviewed_by": "Head Constable M. Srinivas",
+            "admin_notes": "Verified against registered student laptop serial."
+        },
+        {
+            "claim_id": "TKRCET-CLM-8802",
+            "item_id": "TKRCET-F102",
+            "item_title": "Apple AirPods Pro (White Wireless Case)",
+            "claimant_name": "Priya Patel",
+            "claimant_roll": "24K91A0412",
+            "claimant_dept": "Electronics & Communication Engineering (ECE)",
+            "claimant_phone": "+91 98765 01234",
+            "claim_timestamp": "2026-09-17 14:10",
+            "secret_submitted": "spigen",
+            "verification_result": "MATCH VERIFIED (Zero-Knowledge Hash Match)",
+            "status": "PENDING ADMIN HANDOVER AUTHORIZATION",
+            "token_id": "TKRCET-CLR-F1020412",
+            "desk": "Main Food Court & Canteen (Counter 3)",
+            "reviewed_by": "Pending Assignment",
+            "admin_notes": "Awaiting claimant arrival at counter."
+        }
+    ]
+
+if "admin_audit_logs" not in st.session_state:
+    st.session_state.admin_audit_logs = [
+        {
+            "time": "11:25:10",
+            "officer": "Head Constable M. Srinivas",
+            "action": "APPROVED CLAIM #TKRCET-CLM-8801",
+            "details": "Authorized clearance token for Rohan Sharma (Dell Laptop).",
+            "badge": "APPROVAL"
+        },
+        {
+            "time": "10:15:00",
+            "officer": "Mr. K. V. Rao",
+            "action": "CUSTODY INTAKE",
+            "details": "Registered Apple AirPods Pro into Central Library Vault.",
+            "badge": "INTAKE"
+        }
+    ]
+
+if "broadcast_alerts" not in st.session_state:
+    st.session_state.broadcast_alerts = [
+        {
+            "id": "BC-2026-01",
+            "time": "13:00",
+            "title": "Dark Brown Leather Wallet with Metro Card",
+            "location": "Indoor Sports Complex (Badminton Arena)",
+            "message": "Student lost wallet containing transit card and ID. Deposited at PE Office.",
+            "priority": "HIGH PRIORITY",
+            "officer": "Head Constable M. Srinivas"
+        }
+    ]
 
 # ---------------------------------------------------------
 # Computer Vision & Multimodal Matching Algorithm
@@ -617,8 +887,99 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
+# Active Campus Broadcast Alerts (If Any)
+# ---------------------------------------------------------
+if "broadcast_alerts" in st.session_state and st.session_state.broadcast_alerts:
+    latest_bc = st.session_state.broadcast_alerts[0]
+    st.markdown(f"""
+    <div class="broadcast-banner">
+        <span style="font-size:1.4rem;">🚨</span>
+        <div>
+            <b>CAMPUS URGENT BROADCAST [{latest_bc['priority']}]:</b> {latest_bc['title']} &bull; 
+            <span>{latest_bc['message']}</span>
+            <span style="color:#94a3b8; font-size:0.75rem; margin-left:8px;">(Contact: {latest_bc['location']} Desk)</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# Institutional SSO Session Status Bar & Fast Switcher
+# ---------------------------------------------------------
+curr_role = st.session_state.current_user.get("role", "student")
+curr_uid = st.session_state.current_user.get("id", "24K91A0501")
+
+if curr_role == "student":
+    st_info = st.session_state.student_directory.get(curr_uid, {
+        "name": "Student", "roll": curr_uid, "dept": "Computer Science & Engineering", "email": f"{curr_uid.lower()}@tkrcet.ac.in"
+    })
+    sso_user_html = f"""
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <span class="sso-user-tag sso-student-badge">🎓 STUDENT SSO ACTIVE</span>
+        <span style="font-size:0.95rem; font-weight:700; color:#f8fafc;">{st_info['name']}</span>
+        <code style="color:#38bdf8;">HT NO: {st_info['roll']}</code>
+        <span style="color:#94a3b8; font-size:0.84rem;">({st_info['dept'].split('(')[0]})</span>
+    </div>
+    """
+elif curr_role == "admin":
+    adm_info = st.session_state.admin_directory.get(curr_uid, {
+        "name": "Security Officer", "role_title": "Campus Security", "desk": "Gate 1 Post"
+    })
+    sso_user_html = f"""
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <span class="sso-user-tag sso-admin-badge">🛡️ ADMIN COMMAND ACTIVE</span>
+        <span style="font-size:0.95rem; font-weight:700; color:#f8fafc;">{adm_info['name']}</span>
+        <code style="color:#fbbf24;">{adm_info['role_title']}</code>
+        <span style="color:#94a3b8; font-size:0.84rem;">({adm_info['desk']})</span>
+    </div>
+    """
+else:
+    sso_user_html = """
+    <div style="display:flex; align-items:center; gap:10px;">
+        <span class="sso-user-tag sso-guest-badge">👁️ GUEST / PUBLIC MODE</span>
+        <span style="font-size:0.9rem; color:#94a3b8;">Browse & submit reports without authentication</span>
+    </div>
+    """
+
+st.markdown(f"""
+<div class="sso-ribbon">
+    {sso_user_html}
+    <div style="font-size:0.82rem; color:#94a3b8;">
+        Institutional Single Sign-On (TKRCET Identity Provider)
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# Quick 1-Click Role Switcher row
+sso_c1, sso_c2, sso_c3, sso_c4, sso_c5 = st.columns([1.1, 1.1, 1.3, 1.2, 0.8])
+with sso_c1:
+    if st.button("🎓 Rohan (CSE)", use_container_width=True, help="Switch to Student Rohan Sharma (24K91A0501)"):
+        st.session_state.current_user = {"role": "student", "id": "24K91A0501"}
+        st.rerun()
+with sso_c2:
+    if st.button("🎓 Priya (ECE)", use_container_width=True, help="Switch to Student Priya Patel (24K91A0412)"):
+        st.session_state.current_user = {"role": "student", "id": "24K91A0412"}
+        st.rerun()
+with sso_c3:
+    if st.button("🛡️ Chief Security Admin", use_container_width=True, help="Switch to Chief Security Officer M. Srinivas"):
+        st.session_state.current_user = {"role": "admin", "id": "TKRCET-SEC-01"}
+        st.rerun()
+with sso_c4:
+    if st.button("📚 Library Custodian", use_container_width=True, help="Switch to Central Library Custodian K. V. Rao"):
+        st.session_state.current_user = {"role": "admin", "id": "TKRCET-LIB-01"}
+        st.rerun()
+with sso_c5:
+    if st.button("🚪 Guest", use_container_width=True, help="Switch to Guest / Log Out"):
+        st.session_state.current_user = {"role": "guest", "id": "GUEST"}
+        st.rerun()
+
+st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+
+# ---------------------------------------------------------
 # Institutional Metric Dashboard
 # ---------------------------------------------------------
+total_claims = len(st.session_state.claims_db)
+resolved_claims = len([c for c in st.session_state.claims_db if "APPROVED" in c["status"] or "HANDED" in c["status"]])
+
 col_k1, col_k2, col_k3, col_k4 = st.columns(4)
 with col_k1:
     st.markdown("""
@@ -637,11 +998,11 @@ with col_k2:
     </div>
     """, unsafe_allow_html=True)
 with col_k3:
-    st.markdown("""
+    st.markdown(f"""
     <div class="kpi-box">
-        <div class="kpi-number">&lt; 1.4h</div>
-        <div class="kpi-title">Average Return Time</div>
-        <div class="kpi-subtext">Automated WhatsApp / Bot Alert</div>
+        <div class="kpi-number">{total_claims} Queue</div>
+        <div class="kpi-title">Active Claims & Handover</div>
+        <div class="kpi-subtext">{resolved_claims} Verified & Ready</div>
     </div>
     """, unsafe_allow_html=True)
 with col_k4:
@@ -658,10 +1019,12 @@ st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
 # ---------------------------------------------------------
 # Segmented Navigation Tabs
 # ---------------------------------------------------------
-tab_ocr, tab_match, tab_claim, tab_map, tab_qr, tab_bot, tab_report, tab_policy = st.tabs([
+tab_ocr, tab_student, tab_admin, tab_match, tab_claim, tab_map, tab_qr, tab_bot, tab_report, tab_policy = st.tabs([
     "🪪 AI OCR ID Card Scanner",
+    "🎓 Student Profile & Belongings",
+    "🛡️ Admin Command Center & Desks",
     "🔎 Visual AI Similarity Search",
-    "🛡️ Student Claim Verification",
+    "🔐 Student Claim Verification",
     "🗺️ TKRCET Campus Desks & Map",
     "🏷️ Smart Belonging QR Tag",
     "💬 Automated Push Webhooks",
@@ -781,7 +1144,457 @@ with tab_ocr:
         """, unsafe_allow_html=True)
 
 # =========================================================
-# TAB 2: Visual AI Similarity Search
+# TAB 2: Student Profile & Belongings Registry (SSO FEATURE)
+# =========================================================
+with tab_student:
+    st.markdown("### 🎓 Student Profile & Belongings Protection Vault")
+    st.markdown(
+        "Manage your official student credentials, contact details for instant recovery dispatches, "
+        "and pre-register personal belongings to expedite recovery before incidents occur."
+    )
+    
+    if st.session_state.current_user.get("role") != "student":
+        st.warning("⚠️ You are currently in Admin / Guest mode. Switch to Student SSO to manage your profile and belongings.")
+        c_s1, c_s2 = st.columns(2)
+        with c_s1:
+            if st.button("🎓 Authenticate as Rohan Sharma (24K91A0501 - CSE)", key="auth_btn_rohan", use_container_width=True):
+                st.session_state.current_user = {"role": "student", "id": "24K91A0501"}
+                st.rerun()
+        with c_s2:
+            if st.button("🎓 Authenticate as Priya Patel (24K91A0412 - ECE)", key="auth_btn_priya", use_container_width=True):
+                st.session_state.current_user = {"role": "student", "id": "24K91A0412"}
+                st.rerun()
+    else:
+        curr_roll = st.session_state.current_user.get("id", "24K91A0501")
+        student_data = st.session_state.student_directory.get(curr_roll, {
+            "name": "Student", "roll": curr_roll, "email": f"{curr_roll.lower()}@tkrcet.ac.in",
+            "phone": "+91 98000 00000", "dept": "Computer Science & Engineering (CSE)",
+            "batch": "2024 — 2028 (1st Year)", "residence": "College Hostel",
+            "blood_group": "O+", "emergency_contact": "Guardian", "id_status": "Verified",
+            "belongings": []
+        })
+
+        col_st_left, col_st_right = st.columns([1.1, 1.4], gap="large")
+
+        with col_st_left:
+            st.markdown("#### 1. Official Digital Student ID Card")
+            st.markdown(f"""
+            <div class="student-id-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
+                    <div>
+                        <div style="font-size:0.75rem; color:#f59e0b; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">
+                            🏛️ TKR COLLEGE OF ENGINEERING & TECH
+                        </div>
+                        <div style="font-size:0.68rem; color:#94a3b8;">AUTONOMOUS &bull; HYDERABAD</div>
+                    </div>
+                    <span class="admin-status-pill status-approved">✓ VERIFIED SSO</span>
+                </div>
+                <div style="font-size:1.45rem; font-weight:800; color:#ffffff; margin-bottom:4px;">
+                    {student_data['name']}
+                </div>
+                <div style="font-size:1.15rem; font-family:'JetBrains Mono', monospace; font-weight:700; color:#38bdf8; margin-bottom:12px;">
+                    HT NO: {student_data['roll']}
+                </div>
+                <div style="font-size:0.85rem; color:#cbd5e1; line-height:1.6;">
+                    <div><b>Branch:</b> {student_data['dept']}</div>
+                    <div><b>Batch:</b> {student_data['batch']}</div>
+                    <div><b>College Email:</b> <code style="color:#38bdf8;">{student_data['email']}</code></div>
+                    <div><b>Registered Mobile:</b> {student_data['phone']}</div>
+                    <div><b>Residence:</b> {student_data['residence']}</div>
+                    <div><b>Emergency Contact:</b> {student_data.get('emergency_contact', 'N/A')}</div>
+                </div>
+                <hr style="border-color:rgba(255,255,255,0.1); margin:14px 0 10px 0;">
+                <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#64748b;">
+                    <span>STATUS: ACTIVE ENROLLED</span>
+                    <span>SECURITY HASH: #TKRCET-SSO-{student_data['roll']}</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+            st.markdown("#### 2. Update Student Profile & Recovery Routing")
+            with st.form(f"update_profile_{curr_roll}"):
+                up_name = st.text_input("Full Name:", value=student_data['name'])
+                up_phone = st.text_input("Mobile / WhatsApp Number (For AI Recovery Alerts):", value=student_data['phone'])
+                up_alt_email = st.text_input("Personal / Alternate Email:", value=student_data.get('alt_email', ''))
+                up_residence = st.selectbox("Campus Residence / Commute:", [
+                    "College Campus Hostel (Block B, Room 214)",
+                    "College Campus Hostel (Block A)",
+                    "Day Scholar (Campus Bus Route #14 — Dilsukhnagar)",
+                    "Day Scholar (Campus Bus Route #08 — LB Nagar)",
+                    "Day Scholar (Metro / Private Commute)"
+                ], index=0 if "Hostel" in student_data.get('residence', '') else 2)
+                up_emerg = st.text_input("Emergency Contact Person & Phone:", value=student_data.get('emergency_contact', ''))
+                
+                save_prof = st.form_submit_button("💾 Save & Sync Profile Across Campus", type="primary")
+                if save_prof:
+                    st.session_state.student_directory[curr_roll]["name"] = up_name
+                    st.session_state.student_directory[curr_roll]["phone"] = up_phone
+                    st.session_state.student_directory[curr_roll]["alt_email"] = up_alt_email
+                    st.session_state.student_directory[curr_roll]["residence"] = up_residence
+                    st.session_state.student_directory[curr_roll]["emergency_contact"] = up_emerg
+                    st.success("✅ Student Profile updated and synchronized with Campus Recovery Node!")
+                    st.rerun()
+
+        with col_st_right:
+            st.markdown("#### 3. Pre-Registered Belongings (Asset Protection Vault)")
+            st.markdown(
+                "Register valuable belongings below with serial numbers or secret identifying marks. "
+                "If someone finds them on campus, our system immediately links ownership to you!"
+            )
+
+            belongings = student_data.get("belongings", [])
+            if not belongings:
+                st.info("No personal belongings pre-registered yet. Add your laptop, calculator, or headphones below.")
+            else:
+                for b_idx, bel in enumerate(belongings):
+                    with st.container():
+                        st.markdown(f"""
+                        <div class="portal-card" style="padding:14px 18px; margin-bottom:10px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <b style="color:#ffffff; font-size:1.05rem;">🏷️ {bel['title']}</b>
+                                <span class="ocr-badge">{bel['category']}</span>
+                            </div>
+                            <div style="font-size:0.85rem; color:#cbd5e1; margin-top:6px;">
+                                <span><b>Serial / MAC:</b> <code>{bel['serial']}</code></span> &bull; 
+                                <span><b>Secret Marker:</b> {bel['secret_marker']}</span> &bull; 
+                                <span style="color:#94a3b8;">Added: {bel['date_added']}</span>
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+
+            with st.expander("➕ Register a New Valuable Belonging (Laptop, Calculator, Gadget)", expanded=False):
+                with st.form(f"add_belonging_{curr_roll}"):
+                    b_title = st.text_input("Belonging Title / Model:", placeholder="e.g. Dell Inspiron 15 / Casio fx-991EX / Boat Airdopes")
+                    b_cat = st.selectbox("Category:", ["Electronics & Computing", "Audio & Mobile Gadgets", "Calculators & Instruments", "Bags & Wallets", "Other"])
+                    b_serial = st.text_input("Serial Number / MAC Address / IMEI:", placeholder="e.g. SN-99482710 or Bluetooth MAC")
+                    b_secret = st.text_input("Secret Identifying Marker (Sticker, scratch, engraving):", placeholder="e.g. Red dragon sticker on lid / Initials carved on back")
+                    add_b_btn = st.form_submit_button("🛡️ Add to Asset Protection Vault", type="primary")
+                    if add_b_btn and b_title:
+                        new_bel = {
+                            "id": f"BEL-{curr_roll[-4:]}-{len(belongings) + 1}",
+                            "title": b_title,
+                            "category": b_cat,
+                            "serial": b_serial if b_serial else "N/A",
+                            "secret_marker": b_secret if b_secret else "Registered by owner",
+                            "date_added": datetime.now().strftime("%Y-%m-%d")
+                        }
+                        st.session_state.student_directory[curr_roll]["belongings"].append(new_bel)
+                        st.success(f"🎉 '{b_title}' securely registered in your campus asset vault!")
+                        st.rerun()
+
+            st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+            st.markdown("#### 4. My Active Claims & Recovery Status")
+            
+            my_claims = [c for c in st.session_state.claims_db if c.get("claimant_roll") == curr_roll]
+            if not my_claims:
+                st.info("You have no open claims in the queue.")
+            else:
+                for mc in my_claims:
+                    status_class = "status-approved" if "APPROVED" in mc['status'] else ("status-handed" if "HANDED" in mc['status'] else "status-pending")
+                    st.markdown(f"""
+                    <div class="portal-card" style="border-left:4px solid #38bdf8; margin-bottom:12px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-weight:700; color:#f8fafc; font-size:1.05rem;">{mc['claim_id']} — {mc['item_title']}</span>
+                            <span class="admin-status-pill {status_class}">{mc['status']}</span>
+                        </div>
+                        <div style="font-size:0.86rem; color:#cbd5e1; margin-top:8px;">
+                            <div>📍 <b>Custody Desk:</b> {mc['desk']}</div>
+                            <div>🔑 <b>Clearance Token:</b> <code style="color:#34d399;">{mc['token_id']}</code></div>
+                            <div>👮 <b>Reviewed By:</b> {mc.get('reviewed_by', 'Security Duty Officer')}</div>
+                            <div style="color:#94a3b8; font-size:0.8rem; margin-top:4px;">Note: {mc.get('admin_notes', 'Visit desk with Student ID.')}</div>
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+# =========================================================
+# TAB 3: Admin Command Center & Desk Operations (MAJOR WORKS)
+# =========================================================
+with tab_admin:
+    st.markdown("### 🛡️ TKRCET Campus Security & Custody Command Center")
+    st.markdown(
+        "Institutional control console for Campus Security Proctors, Chief Librarians, and Department Custodians. "
+        "Review student claims, authorize physical handovers, manage inter-desk custody transfers, and dispatch campus-wide alerts."
+    )
+
+    is_admin = (st.session_state.current_user.get("role") == "admin")
+    
+    if not is_admin:
+        st.markdown("""
+        <div class="admin-console-card" style="border: 2px dashed rgba(245, 158, 11, 0.4); text-align:center; padding:32px;">
+            <div style="font-size:2.5rem; margin-bottom:10px;">🔒</div>
+            <h3 style="color:#f59e0b; margin:0 0 8px 0;">Privileged Administrative Console</h3>
+            <p style="color:#cbd5e1; max-width:600px; margin:0 auto 20px auto; font-size:0.92rem;">
+                This section is restricted to authorized campus custodians, duty proctors, and security personnel.
+                Please authenticate using your Institutional Admin Key or select an authorized custody officer profile.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        adm_c1, adm_c2 = st.columns(2, gap="large")
+        with adm_c1:
+            st.markdown("#### Fast Institutional Admin SSO Switcher")
+            if st.button("🛡️ Login as Head Constable M. Srinivas (Chief Security Officer - Gate 1)", key="adm_login_srinivas", use_container_width=True, type="primary"):
+                st.session_state.current_user = {"role": "admin", "id": "TKRCET-SEC-01"}
+                st.rerun()
+            if st.button("📚 Login as Mr. K. V. Rao (Chief Librarian - Digital Wing Desk)", key="adm_login_rao", use_container_width=True):
+                st.session_state.current_user = {"role": "admin", "id": "TKRCET-LIB-01"}
+                st.rerun()
+        with adm_c2:
+            st.markdown("#### Admin Security Key Entry")
+            admin_key_input = st.text_input("Enter Campus Security PIN / Master Key:", type="password", placeholder="e.g. TKRCET-ADMIN-2026", key="adm_key_entry")
+            if st.button("🔓 Authenticate & Unlock Command Console", key="adm_unlock_btn", use_container_width=True):
+                if admin_key_input.strip() in ["TKRCET-ADMIN-2026", "admin", "tkrcet"]:
+                    st.session_state.current_user = {"role": "admin", "id": "TKRCET-SEC-01"}
+                    st.success("Access Granted: Welcome Chief Security Officer.")
+                    st.rerun()
+                else:
+                    st.error("Invalid Security Key. Use 'TKRCET-ADMIN-2026' or fast SSO buttons.")
+    else:
+        admin_id = st.session_state.current_user.get("id", "TKRCET-SEC-01")
+        admin_info = st.session_state.admin_directory.get(admin_id, {
+            "name": "Officer Srinivas", "role_title": "Campus Security Officer",
+            "desk": "Main Gate 1 Security Post", "badge": "CAMPUS COMMAND",
+            "email": "security@tkrcet.ac.in", "phone": "+91 98490 12345"
+        })
+
+        st.markdown(f"""
+        <div class="sso-ribbon" style="border-color:rgba(245, 158, 11, 0.4); background:#0c1322;">
+            <div style="display:flex; align-items:center; gap:14px;">
+                <div style="font-size:1.8rem;">👮</div>
+                <div>
+                    <div style="font-weight:800; font-size:1.1rem; color:#f8fafc;">
+                        {admin_info['name']} &bull; <span style="color:#f59e0b;">{admin_info['role_title']}</span>
+                    </div>
+                    <div style="font-size:0.8rem; color:#94a3b8;">
+                        Designated Counter: <b>{admin_info['desk']}</b> &bull; ID: <code>{admin_id}</code> &bull; Hotline: {admin_info['phone']}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="sso-user-tag sso-admin-badge">✓ ACTIVE ADMIN SESSION</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        admin_sub1, admin_sub2, admin_sub3, admin_sub4 = st.tabs([
+            "⚡ 1. Claims Review & Handover Authorization",
+            "🏛️ 2. Custody Inventory & Cross-Desk Transfer",
+            "📢 3. Emergency Campus Broadcast",
+            "📜 4. Security Chain-of-Custody & Audit Logs"
+        ])
+
+        # --- Subtab 1: Claims Review & Handover Authorization ---
+        with admin_sub1:
+            st.markdown("#### Student Verification Claims Requiring Custodian Action")
+            st.markdown("Review ownership proofs submitted by students, verify ID cards, and authorize handovers:")
+
+            claims = st.session_state.claims_db
+            if not claims:
+                st.info("No active claims in the institutional queue.")
+            else:
+                for c_idx, claim in enumerate(claims):
+                    with st.container():
+                        st.markdown(f"""
+                        <div class="admin-console-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                                <span style="font-weight:800; font-size:1.15rem; color:#ffffff;">
+                                    {claim['claim_id']} &bull; {claim['item_title']}
+                                </span>
+                                <span class="admin-status-pill {'status-approved' if 'APPROVED' in claim['status'] else ('status-handed' if 'HANDED' in claim['status'] else 'status-pending')}">
+                                    {claim['status']}
+                                </span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.88rem; color:#cbd5e1; margin-bottom:14px;">
+                                <div><b>Claimant Student:</b> {claim['claimant_name']} (<code>{claim['claimant_roll']}</code>)</div>
+                                <div><b>Department:</b> {claim['claimant_dept']}</div>
+                                <div><b>Student Mobile:</b> {claim['claimant_phone']}</div>
+                                <div><b>Custody Counter:</b> {claim['desk']}</div>
+                                <div><b>Submitted Secret Proof:</b> <code>{claim['secret_submitted']}</code></div>
+                                <div><b>Verification Status:</b> <span style="color:#34d399;">{claim['verification_result']}</span></div>
+                                <div><b>Clearance Token:</b> <code style="color:#38bdf8;">{claim['token_id']}</code></div>
+                                <div><b>Last Reviewed By:</b> {claim.get('reviewed_by', 'Pending')}</div>
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+
+                        ac1, ac2, ac3 = st.columns(3)
+                        with ac1:
+                            if st.button("✅ Authorize & Stamp Claim", key=f"apprv_{claim['claim_id']}", use_container_width=True):
+                                claim["status"] = "APPROVED — READY FOR PHYSICAL COLLECTION"
+                                claim["reviewed_by"] = f"{admin_info['name']} ({admin_id})"
+                                claim["admin_notes"] = f"Approved by {admin_info['name']} on {datetime.now().strftime('%d-%b %H:%M')}"
+                                st.session_state.admin_audit_logs.insert(0, {
+                                    "time": datetime.now().strftime("%H:%M:%S"),
+                                    "officer": admin_info['name'],
+                                    "action": f"AUTHORIZED CLAIM {claim['claim_id']}",
+                                    "details": f"Cleared handover token {claim['token_id']} for {claim['claimant_name']}.",
+                                    "badge": "APPROVAL"
+                                })
+                                st.success(f"Claim #{claim['claim_id']} approved! Student notified.")
+                                st.rerun()
+                        with ac2:
+                            if st.button("📦 Confirm Physical Handover", key=f"hand_{claim['claim_id']}", use_container_width=True, type="primary"):
+                                claim["status"] = "CLAIMED & HANDED OVER (ARCHIVED)"
+                                claim["reviewed_by"] = f"{admin_info['name']} ({admin_id})"
+                                claim["admin_notes"] = "Physical belonging handed to student after verifying student ID card."
+                                for item in st.session_state.items_db:
+                                    if item["id"] == claim["item_id"]:
+                                        item["status"] = "Handed Over to True Owner"
+                                st.session_state.admin_audit_logs.insert(0, {
+                                    "time": datetime.now().strftime("%H:%M:%S"),
+                                    "officer": admin_info['name'],
+                                    "action": f"COMPLETED HANDOVER {claim['claim_id']}",
+                                    "details": f"Handed {claim['item_title']} to {claim['claimant_name']} ({claim['claimant_roll']}).",
+                                    "badge": "HANDOVER"
+                                })
+                                st.success(f"Physical Handover recorded! Case #{claim['claim_id']} officially resolved.")
+                                st.rerun()
+                        with ac3:
+                            if st.button("❌ Reject Claim (Fraud Alert)", key=f"rej_{claim['claim_id']}", use_container_width=True):
+                                claim["status"] = "REJECTED (FAILED PROOF)"
+                                claim["reviewed_by"] = f"{admin_info['name']} ({admin_id})"
+                                claim["admin_notes"] = "Failed physical ID or credential verification."
+                                st.session_state.admin_audit_logs.insert(0, {
+                                    "time": datetime.now().strftime("%H:%M:%S"),
+                                    "officer": admin_info['name'],
+                                    "action": f"REJECTED CLAIM {claim['claim_id']}",
+                                    "details": f"Claim for {claim['item_title']} rejected due to non-matching verification.",
+                                    "badge": "REJECTION"
+                                })
+                                st.error(f"Claim #{claim['claim_id']} rejected.")
+                                st.rerun()
+                        st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+
+        # --- Subtab 2: Custody Inventory & Cross-Desk Transfer ---
+        with admin_sub2:
+            st.markdown("#### Campus Custody Vault & Cross-Desk Reassignment")
+            st.markdown("Manage items held in custody counters. Transfer items to central security or proctor archives.")
+
+            all_found = [it for it in st.session_state.items_db if it["type"] == "FOUND"]
+            desk_filter = st.selectbox("Filter by Campus Desk:", ["All Campus Desks", "Central Library", "Main Food Court", "Indoor Sports Complex", "CSE & IT Block", "Main Administrative Block"])
+            
+            filtered_items = all_found if desk_filter == "All Campus Desks" else [it for it in all_found if desk_filter.split()[0].lower() in it["location"].lower()]
+            
+            c_inv_l, c_inv_r = st.columns([1.3, 1], gap="large")
+            with c_inv_l:
+                st.markdown("##### Active Items in Institutional Custody")
+                for it in filtered_items:
+                    st.markdown(f"""
+                    <div class="portal-card" style="padding:14px; margin-bottom:8px;">
+                        <div style="display:flex; justify-content:space-between;">
+                            <b>{it['id']} &bull; {it['title']}</b>
+                            <span class="ocr-badge">{it['category']}</span>
+                        </div>
+                        <div style="font-size:0.82rem; color:#cbd5e1; margin-top:4px;">
+                            📍 <b>Location:</b> {it['location']}<br>
+                            👮 <b>Custodian:</b> {it.get('custody_officer', 'Campus Security')}<br>
+                            🔒 <b>Status:</b> <code>{it['status']}</code>
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+            with c_inv_r:
+                st.markdown("##### 🔄 Execute Inter-Desk Custody Transfer")
+                with st.form("transfer_custody_form"):
+                    tr_item_sel = st.selectbox("Select Item to Relocate:", [f"{i['id']}: {i['title']}" for i in all_found])
+                    tr_target_desk = st.selectbox("New Custody Counter / Desk:", [
+                        "Main Administrative Block & Gate 1 Post (Central Vault)",
+                        "Central Library — 2nd Floor Digital Wing Desk",
+                        "CSE & IT Block C (Room 102 Proctors Office)",
+                        "Indoor Sports Complex (PE Department Counter)",
+                        "Main Food Court & Canteen (Manager Office)"
+                    ])
+                    tr_reason = st.text_input("Transfer Reason / Security Memo:", value="Relocating to central vault for secure long-term custody.")
+                    tr_submit = st.form_submit_button("🔄 Execute Inter-Desk Transfer", type="primary")
+
+                    if tr_submit:
+                        sel_id = tr_item_sel.split(":")[0]
+                        for it in st.session_state.items_db:
+                            if it["id"] == sel_id:
+                                old_loc = it["location"]
+                                it["location"] = tr_target_desk
+                                it["custody_officer"] = f"{admin_info['name']} (Transferred)"
+                                st.session_state.admin_audit_logs.insert(0, {
+                                    "time": datetime.now().strftime("%H:%M:%S"),
+                                    "officer": admin_info['name'],
+                                    "action": f"TRANSFERRED CUSTODY #{sel_id}",
+                                    "details": f"Relocated from {old_loc} to {tr_target_desk}. Memo: {tr_reason}",
+                                    "badge": "TRANSFER"
+                                })
+                                st.success(f"Item #{sel_id} successfully transferred to {tr_target_desk}!")
+                                st.rerun()
+
+        # --- Subtab 3: Emergency Campus Broadcast ---
+        with admin_sub3:
+            st.markdown("#### 📢 Campus-Wide Emergency Broadcast Alerts")
+            st.markdown("Send high-priority alerts across college digital signage, student WhatsApp bots, and portal top banners:")
+
+            with st.form("new_broadcast_form"):
+                bc_title = st.text_input("Incident / Belonging Title:", placeholder="e.g. URGENT: Gold Ring Found Near Canteen / Dell Inspiron Laptop")
+                bc_loc = st.selectbox("Campus Zone:", [
+                    "Main Food Court & Canteen",
+                    "Central Library 2nd Floor",
+                    "Indoor Sports Complex",
+                    "CSE Block C / IT Block",
+                    "Gate 1 & Administrative Block"
+                ])
+                bc_msg = st.text_area("Broadcast Notice to Students:", placeholder="e.g. A high-value item was turned into security. Owner must verify serial number at Gate 1.")
+                bc_pri = st.radio("Urgency Level:", ["HIGH PRIORITY", "CRITICAL SECURITY ALERT", "GENERAL NOTICE"], horizontal=True)
+                bc_btn = st.form_submit_button("📢 Dispatch Campus Emergency Broadcast", type="primary")
+
+                if bc_btn and bc_title:
+                    new_bc = {
+                        "id": f"BC-2026-{len(st.session_state.broadcast_alerts) + 1:02d}",
+                        "time": datetime.now().strftime("%H:%M"),
+                        "title": bc_title,
+                        "location": bc_loc,
+                        "message": bc_msg if bc_msg else f"High priority belonging deposited at {bc_loc}.",
+                        "priority": bc_pri,
+                        "officer": admin_info['name']
+                    }
+                    st.session_state.broadcast_alerts.insert(0, new_bc)
+                    st.session_state.admin_audit_logs.insert(0, {
+                        "time": datetime.now().strftime("%H:%M:%S"),
+                        "officer": admin_info['name'],
+                        "action": f"DISPATCHED BROADCAST {new_bc['id']}",
+                        "details": f"Dispatched '{bc_title}' ({bc_pri}).",
+                        "badge": "BROADCAST"
+                    })
+                    st.success("🚨 Emergency Broadcast Dispatched! Banner is now active on all portal screens.")
+                    st.rerun()
+
+            st.markdown("##### Active Broadcast History")
+            for bc in st.session_state.broadcast_alerts:
+                st.markdown(f"""
+                <div class="broadcast-banner">
+                    <span style="font-size:1.3rem;">📢</span>
+                    <div>
+                        <b>[{bc['priority']}] {bc['title']}</b> &bull; <span style="font-size:0.8rem; color:#94a3b8;">{bc['time']} by {bc['officer']} ({bc['location']})</span><br>
+                        <span style="font-size:0.85rem; color:#f1f5f9;">{bc['message']}</span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+        # --- Subtab 4: Security Audit Logs & Chain-of-Custody ---
+        with admin_sub4:
+            st.markdown("#### Institutional Chain-of-Custody & Audit Trail")
+            st.markdown("Immutable record of all verification stamps, custody handovers, inter-desk transfers, and administrative actions:")
+            
+            df_audit = pd.DataFrame(st.session_state.admin_audit_logs)
+            st.dataframe(df_audit, use_container_width=True)
+
+            csv_data = df_audit.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                "📥 Export Official Custody Audit Log (CSV)",
+                data=csv_data,
+                file_name=f"TKRCET_Custody_Audit_Log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
+
+# =========================================================
+# TAB 4: Visual AI Similarity Search
 # =========================================================
 with tab_match:
     st.markdown("### Autonomous Multi-Modal Visual Matching")
@@ -926,8 +1739,21 @@ with tab_claim:
             "Enter Secret Attribute (Known only to true owner):",
             placeholder="e.g. ai sticker / spigen / 4492"
         )
-        claimant_name = st.text_input("Claimant Full Name:", value="Rohan Sharma")
-        claimant_roll = st.text_input("TKRCET Roll Number (HT No):", value="24K91A0501")
+        # Auto-populate student credentials if logged in as student
+        curr_u_role = st.session_state.current_user.get("role")
+        curr_u_id = st.session_state.current_user.get("id")
+        def_name = "Rohan Sharma"
+        def_roll = "24K91A0501"
+        def_branch_idx = 0
+        if curr_u_role == "student" and curr_u_id in st.session_state.student_directory:
+            st_prof = st.session_state.student_directory[curr_u_id]
+            def_name = st_prof.get("name", "Rohan Sharma")
+            def_roll = st_prof.get("roll", "24K91A0501")
+            if "ECE" in st_prof.get("dept", ""):
+                def_branch_idx = 4
+        
+        claimant_name = st.text_input("Claimant Full Name:", value=def_name)
+        claimant_roll = st.text_input("TKRCET Roll Number (HT No):", value=def_roll)
         claimant_branch = st.selectbox("Department / Branch:", [
             "Computer Science & Engineering (CSE)",
             "Information Technology (IT)",
@@ -938,7 +1764,7 @@ with tab_claim:
             "Mechanical Engineering (MECH)",
             "Civil Engineering (CIVIL)",
             "Master of Business Administration (MBA)"
-        ])
+        ], index=def_branch_idx)
 
         col_b1, col_b2 = st.columns(2)
         with col_b1:
@@ -956,6 +1782,35 @@ with tab_claim:
             if is_valid:
                 token_id = f"TKRCET-CLR-{hashlib.md5(f'{claim_item_data['id']}-{claimant_roll}'.encode()).hexdigest()[:8].upper()}"
                 st.success("✅ OWNERSHIP CHALLENGE VERIFIED SUCCESSFULLY!")
+                
+                # Sync into institutional claims queue for admin
+                existing_c = next((c for c in st.session_state.claims_db if c["item_id"] == claim_item_data["id"] and c["claimant_roll"] == claimant_roll), None)
+                if not existing_c:
+                    new_c_record = {
+                        "claim_id": f"TKRCET-CLM-{len(st.session_state.claims_db) + 8801}",
+                        "item_id": claim_item_data["id"],
+                        "item_title": claim_item_data["title"],
+                        "claimant_name": claimant_name,
+                        "claimant_roll": claimant_roll,
+                        "claimant_dept": claimant_branch,
+                        "claimant_phone": st.session_state.student_directory.get(claimant_roll, {}).get("phone", "+91 98490 00000"),
+                        "claim_timestamp": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                        "secret_submitted": user_claim_answer,
+                        "verification_result": "MATCH VERIFIED (Zero-Knowledge Hash Match)",
+                        "status": "APPROVED — READY FOR PHYSICAL COLLECTION",
+                        "token_id": token_id,
+                        "desk": claim_item_data["location"],
+                        "reviewed_by": claim_item_data.get("custody_officer", "Duty Officer"),
+                        "admin_notes": "Issued digital clearance pass upon valid zero-knowledge attribute verification."
+                    }
+                    st.session_state.claims_db.insert(0, new_c_record)
+                    st.session_state.admin_audit_logs.insert(0, {
+                        "time": datetime.now().strftime("%H:%M:%S"),
+                        "officer": "Automated Sentinel Engine",
+                        "action": f"GENERATED TOKEN {token_id}",
+                        "details": f"Issued retrieval certificate to {claimant_name} ({claimant_roll}).",
+                        "badge": "TOKEN"
+                    })
                 
                 st.markdown(f"""
                 <div class="cert-container">
