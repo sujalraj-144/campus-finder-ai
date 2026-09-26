@@ -847,14 +847,16 @@ default_nav_idx = 0
 if st.session_state.erp_nav_selection in nav_items:
     default_nav_idx = nav_items.index(st.session_state.erp_nav_selection)
 
-nav_choice = st.sidebar.radio(
+sidebar_nav = st.sidebar.radio(
     "Navigation",
     nav_items,
     index=default_nav_idx,
-    key="nav_radio_widget",
+    key="sidebar_nav_choice",
     label_visibility="collapsed"
 )
-st.session_state.erp_nav_selection = nav_choice
+if sidebar_nav != st.session_state.erp_nav_selection:
+    st.session_state.erp_nav_selection = sidebar_nav
+    st.rerun()
 
 # Bottom User Session Card & Persona Switcher in Sidebar
 st.sidebar.markdown("---")
@@ -947,21 +949,66 @@ elif "Guest" in new_role_choice and curr_role != "guest":
     st.rerun()
 
 # ---------------------------------------------------------
-# Main Canvas Top Breadcrumb Bar
+# Main Page Institutional Header & Top Navigation Bar
 # ---------------------------------------------------------
-nav_display_names = {
-    "🏛️ Campus Live Desk": ("Operations Desk", "Campus Live Desk & Custody Inventory"),
-    "🪪 AI Document & Roll OCR": ("AI & Vision Tools", "Automated ID Card & Hall Ticket OCR"),
-    "🔍 Visual AI Similarity Search": ("AI & Vision Tools", "Multi-Modal Visual Similarity Matcher"),
-    "➕ Deposit / Report Item": ("Intake Desk", "Deposit Found Belonging / Report Lost Item"),
-    "🎒 Student Property Vault": ("Student Services", "Student Identity & Pre-Registered Property Vault"),
-    "🔐 Claim Ownership Verification": ("Student Services", "Zero-Knowledge Ownership Verification"),
-    "🏷️ Smart Belonging QR Tags": ("Asset Protection", "Privacy-Preserving QR Tag Generator"),
-    "🛡️ Security Command Center": ("Security & Proctorial", "Campus Security & Custody Command Center"),
-    "📢 Emergency Broadcasts": ("Campus Alerts", "Emergency Broadcasts & Push Webhooks"),
-    "📜 Custody Audit & SOPs": ("Institutional Governance", "Chain-of-Custody Audit Ledger & SOPs"),
-    "🗺️ Campus Desks & Map": ("Campus Navigation", "Campus Incident Spatial Map & Desks")
-}
+crest_img_html = f'<img src="data:image/png;base64,{favicon_b64}" width="64" height="64" style="border-radius:50%; box-shadow:0 0 14px rgba(245,158,11,0.45); border:2px solid #f59e0b; flex-shrink:0;" />' if favicon_b64 else '🏛️'
+
+st.markdown(f"""
+<div style="background: linear-gradient(135deg, #0b1329 0%, #1e293b 100%); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 22px 28px; margin-bottom: 16px; color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.1); position: relative; overflow: hidden;">
+    <div style="position: absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, #d97706, #2563eb, #059669);"></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 18px;">
+            {crest_img_html}
+            <div>
+                <div style="font-size: 0.74rem; font-weight: 700; color: #fbbf24; letter-spacing: 0.08em; text-transform: uppercase;">
+                    🏛️ TKR EDUCATIONAL SOCIETY &bull; ESTD. 2002
+                </div>
+                <h1 style="font-family: 'Cinzel', serif; font-size: 1.45rem; font-weight: 800; color: #ffffff; margin: 2px 0 3px 0; letter-spacing: 0.02em; line-height: 1.2;">
+                    TKR COLLEGE OF ENGINEERING & TECHNOLOGY
+                </h1>
+                <div style="font-size: 0.84rem; font-weight: 600; color: #93c5fd;">
+                    AUTONOMOUS INSTITUTION &bull; NAAC 'A+' GRADE &bull; NBA ACCREDITED &bull; JNTUH CODE: K9
+                </div>
+                <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 2px;">
+                    Approved by AICTE, New Delhi &bull; Medbowli, Meerpet, Balapur Mandal, Hyderabad — 500097
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 0.74rem; font-weight: 700; color: #34d399; display: flex; align-items: center; gap: 5px;">
+                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399;"></span>
+                    NODE: TKRCET-HYD-01
+                </span>
+                <span style="background: rgba(37,99,235,0.25); color: #93c5fd; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(59,130,246,0.4);">
+                    🔒 TLS 1.3
+                </span>
+            </div>
+            <div style="font-size: 0.95rem; font-weight: 700; color: #f8fafc;">
+                Campus Recovery ERP System
+            </div>
+            <div style="font-size: 0.74rem; color: #cbd5e1;">
+                Institutional Student Property Custody
+            </div>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# Synchronized Top Segmented Control Navigation (Always Visible Across All Screens!)
+top_nav = st.segmented_control(
+    "Campus Navigation Menu",
+    options=nav_items,
+    default=st.session_state.erp_nav_selection if st.session_state.erp_nav_selection in nav_items else "🏛️ Campus Live Desk",
+    key="top_segmented_nav",
+    label_visibility="collapsed"
+)
+if top_nav and top_nav != st.session_state.erp_nav_selection:
+    st.session_state.erp_nav_selection = top_nav
+    st.rerun()
+
+nav_choice = st.session_state.erp_nav_selection
+
 cat_name, view_title = nav_display_names.get(nav_choice, ("Operations Desk", nav_choice))
 
 st.markdown(f"""
