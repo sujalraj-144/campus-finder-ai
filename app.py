@@ -16,17 +16,17 @@ if os.path.exists(FAVICON_PATH):
         favicon_b64 = base64.b64encode(f.read()).decode("utf-8")
 
 # ---------------------------------------------------------
-# Page Configuration & Styling (Clean Widescreen, No Streamlit Chrome)
+# Page Configuration (Enterprise App Shell Layout)
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="TKR College of Engineering & Technology (Autonomous) — Campus Recovery Portal",
+    page_title="TKR College of Engineering & Technology (Autonomous) — Campus Recovery ERP",
     page_icon=FAVICON_PATH if os.path.exists(FAVICON_PATH) else "🎓",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # ---------------------------------------------------------
-# Official Institutional Design System (CSS)
+# Official Institutional Enterprise Design System (CSS)
 # ---------------------------------------------------------
 st.markdown("""
 <style>
@@ -34,18 +34,13 @@ st.markdown("""
     
     html, body, [class*="css"], .stApp {
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        color: #f1f5f9;
-        background-color: #070b14;
+        color: #0f172a;
+        background-color: #f8fafc;
     }
     
-    /* Hide Deploy Button, Toolbar, Header, and Sidebar */
+    /* Clean Chrome: Hide Deploy Button, Header, and default footer */
     .stDeployButton, 
     [data-testid="stToolbar"], 
-    [data-testid="stHeader"], 
-    header[data-testid="stHeader"], 
-    [data-testid="stSidebar"], 
-    section[data-testid="stSidebar"],
-    [data-testid="collapsedControl"],
     #MainMenu, 
     footer {
         display: none !important;
@@ -56,514 +51,250 @@ st.markdown("""
     .block-container {
         padding-top: 1.2rem !important;
         padding-bottom: 3.5rem !important;
-        max-width: 1480px !important;
+        max-width: 1440px !important;
     }
 
-    /* Official College Crest Header */
-    .college-header {
-        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
-        border: 1px solid rgba(245, 158, 11, 0.25);
-        border-radius: 16px;
-        padding: 24px 32px;
-        margin-bottom: 22px;
-        box-shadow: 0 12px 35px -10px rgba(0, 0, 0, 0.7);
-        position: relative;
-        overflow: hidden;
+    /* ----------------------------------------------- */
+    /* LEFT ENTERPRISE SIDEBAR STYLING                */
+    /* ----------------------------------------------- */
+    section[data-testid="stSidebar"] {
+        background-color: #0b1329 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        width: 320px !important;
+    }
+    section[data-testid="stSidebar"] * {
+        color: #cbd5e1;
+    }
+    section[data-testid="stSidebar"] .block-container {
+        padding: 1.2rem 1rem 2rem 1rem !important;
     }
 
-    .college-header::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #f59e0b, #38bdf8, #f59e0b);
+    /* Style Sidebar Radio as Modern Nav Buttons */
+    section[data-testid="stSidebar"] div[data-testid="stRadio"] > div {
+        gap: 3px !important;
     }
-    
-    .crest-container {
+    section[data-testid="stSidebar"] div[data-testid="stRadio"] label {
+        background: transparent !important;
+        border-radius: 8px !important;
+        padding: 9px 12px !important;
+        color: #94a3b8 !important;
+        font-weight: 600 !important;
+        font-size: 0.86rem !important;
+        cursor: pointer !important;
+        transition: all 0.15s ease-in-out !important;
+        border: 1px solid transparent !important;
+        margin-bottom: 1px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stRadio"] label:hover {
+        background: rgba(255, 255, 255, 0.06) !important;
+        color: #ffffff !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stRadio"] label[data-checked="true"],
+    section[data-testid="stSidebar"] div[data-testid="stRadio"] label:has(input:checked) {
+        background: #1d4ed8 !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        box-shadow: 0 2px 8px rgba(29, 78, 216, 0.4) !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stRadio"] input[type="radio"] {
+        display: none !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stRadio"] div[data-testid="stWidgetLabel"] {
+        display: none !important;
+    }
+
+    /* ----------------------------------------------- */
+    /* MAIN CANVAS ENTERPRISE STYLING                 */
+    /* ----------------------------------------------- */
+    .top-breadcrumb-bar {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 11px 18px;
+        margin-bottom: 20px;
         display: flex;
-        align-items: center;
-        gap: 20px;
-        flex-wrap: wrap;
         justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
-
-    .inst-name {
-        font-family: 'Cinzel', serif;
-        font-size: 1.65rem;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        color: #f8fafc;
-        margin: 0;
-        line-height: 1.25;
-    }
-
-    .inst-sub {
+    .breadcrumb-path {
         font-size: 0.84rem;
         font-weight: 600;
-        color: #fbbf24;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        margin-top: 4px;
+        color: #64748b;
         display: flex;
         align-items: center;
         gap: 8px;
     }
-
-    .inst-meta {
-        font-size: 0.78rem;
-        color: #94a3b8;
-        margin-top: 5px;
-    }
-
-    .portal-badge {
-        background: rgba(56, 189, 248, 0.1);
-        border: 1px solid rgba(56, 189, 248, 0.3);
-        border-radius: 10px;
-        padding: 10px 18px;
-        text-align: right;
-    }
-
-    .status-live {
-        color: #34d399;
-        font-size: 0.78rem;
+    .breadcrumb-active {
+        color: #1d4ed8;
         font-weight: 700;
+    }
+    .hotline-badge {
+        font-size: 0.78rem;
+        color: #475569;
         display: flex;
         align-items: center;
-        gap: 6px;
-        justify-content: flex-end;
+        gap: 12px;
     }
 
-    .pulse-dot {
-        width: 8px;
-        height: 8px;
-        background: #34d399;
-        border-radius: 50%;
-        box-shadow: 0 0 10px #34d399;
+    /* Clean Enterprise Cards */
+    .portal-card, .kpi-box, .ocr-box, .cert-container, .vault-box, .admin-console-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        padding: 22px !important;
+        color: #0f172a !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
     }
-
-    /* Executive KPI Metrics */
     .kpi-box {
-        background: rgba(15, 23, 42, 0.75);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        border-radius: 14px;
-        padding: 18px 22px;
-        border-left: 3px solid #38bdf8;
-        transition: all 0.2s ease;
+        border-left: 4px solid #1d4ed8 !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
     .kpi-box:hover {
-        border-left-color: #f59e0b;
         transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
     }
-
     .kpi-number {
-        font-size: 2.1rem;
-        font-weight: 800;
-        color: #ffffff;
-        letter-spacing: -0.02em;
-        line-height: 1.1;
+        font-size: 2.1rem !important;
+        font-weight: 800 !important;
+        color: #1e3a8a !important;
+        letter-spacing: -0.02em !important;
+        line-height: 1.1 !important;
     }
-
     .kpi-title {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-top: 6px;
+        font-size: 0.78rem !important;
+        font-weight: 700 !important;
+        color: #64748b !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        margin-top: 6px !important;
     }
-
     .kpi-subtext {
-        font-size: 0.75rem;
-        color: #38bdf8;
-        margin-top: 4px;
+        font-size: 0.75rem !important;
+        color: #2563eb !important;
+        font-weight: 600 !important;
+        margin-top: 4px !important;
     }
 
-    /* Custom Modern Segmented Tabs */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        background-color: #0b1120;
-        padding: 8px;
-        border-radius: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        margin-bottom: 22px;
-    }
-    
-    .stTabs [data-baseweb="tab"] {
-        height: 44px;
-        background-color: transparent;
-        border-radius: 10px;
-        color: #94a3b8;
-        font-weight: 600;
-        font-size: 0.92rem;
-        padding: 0 16px;
-        border: none;
-        transition: all 0.2s ease;
-    }
-    
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #1d4ed8 0%, #0284c7 100%) !important;
-        color: #ffffff !important;
-        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
-    }
-    
-    .stTabs [data-baseweb="tab"]:hover {
-        color: #ffffff;
-        background-color: rgba(255, 255, 255, 0.05);
+    /* Purpose statement card */
+    .purpose-hero-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid #d97706;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        color: #334155;
+        font-size: 0.88rem;
+        line-height: 1.55;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     /* OCR Dossier & Recognition Card */
     .ocr-box {
-        background: #090e1a;
-        border: 1px solid rgba(56, 189, 248, 0.35);
-        border-radius: 14px;
-        padding: 22px;
-        margin-bottom: 16px;
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-left: 4px solid #1d4ed8 !important;
     }
-
     .ocr-badge {
-        background: rgba(56, 189, 248, 0.15);
-        color: #38bdf8;
-        padding: 4px 12px;
-        border-radius: 6px;
-        font-family: 'JetBrains Mono', monospace;
-        font-weight: 700;
-        font-size: 0.85rem;
-        display: inline-block;
-        border: 1px solid rgba(56, 189, 248, 0.3);
+        background: #eff6ff !important;
+        color: #1d4ed8 !important;
+        padding: 4px 12px !important;
+        border-radius: 6px !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-weight: 700 !important;
+        font-size: 0.84rem !important;
+        display: inline-block !important;
+        border: 1px solid #bfdbfe !important;
     }
-
     .email-preview {
-        background: #0f172a;
-        border: 1px solid #334155;
-        border-left: 4px solid #3b82f6;
-        border-radius: 12px;
-        padding: 20px;
-        color: #e2e8f0;
-        font-size: 0.9rem;
-        margin-top: 14px;
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        border-left: 4px solid #2563eb !important;
+        border-radius: 12px !important;
+        padding: 18px !important;
+        color: #1e293b !important;
+        font-size: 0.88rem !important;
+        margin-top: 14px !important;
     }
 
-    /* Official Clearance Certificate */
-    .cert-container {
-        background: linear-gradient(135deg, #042f2e 0%, #064e3b 100%);
-        border: 2px solid #10b981;
-        border-radius: 16px;
-        padding: 28px;
-        color: #f8fafc;
-        margin-top: 16px;
-        box-shadow: 0 15px 35px -10px rgba(16, 185, 129, 0.25);
-    }
-
-    .cert-stamp {
-        display: inline-block;
-        border: 2px dashed #34d399;
-        color: #34d399;
-        padding: 6px 14px;
-        border-radius: 8px;
-        font-family: 'JetBrains Mono', monospace;
-        font-weight: 700;
-        font-size: 0.82rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        margin-bottom: 12px;
-    }
-
-    .cert-token {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: #a7f3d0;
-        letter-spacing: 0.08em;
-        background: rgba(0, 0, 0, 0.35);
-        padding: 8px 18px;
-        border-radius: 10px;
-        display: inline-block;
-        margin: 10px 0;
-        border: 1px solid rgba(52, 211, 153, 0.3);
-    }
-
-    .portal-card {
-        background: #0f172a;
-        border: 1px solid #1e293b;
-        border-radius: 14px;
-        padding: 20px;
-        margin-bottom: 16px;
-        transition: border 0.2s ease;
-    }
-
-    .portal-card:hover {
-        border-color: #38bdf8;
-    }
-
-    .badge-match {
-        background: rgba(16, 185, 129, 0.15);
-        color: #34d399;
-        font-weight: 700;
-        font-size: 0.85rem;
-        padding: 4px 12px;
-        border-radius: 6px;
-        border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .vault-box {
-        background: #090e1a;
-        border: 1px solid rgba(245, 158, 11, 0.3);
-        border-radius: 14px;
-        padding: 22px;
-        margin: 16px 0;
-    }
-
-    .phone-box {
-        background: #000000;
-        border: 10px solid #1e293b;
-        border-radius: 36px;
-        padding: 20px;
-        max-width: 380px;
-        margin: 0 auto;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-    }
-
-    .phone-chat {
-        background: #1e293b;
-        color: #f1f5f9;
-        border: 1px solid #334155;
-        border-radius: 14px 14px 14px 2px;
-        padding: 14px 16px;
-        font-size: 0.86rem;
-        line-height: 1.45;
-        margin-bottom: 12px;
-    }
-
-    .inst-footer {
-        margin-top: 48px;
-        padding-top: 24px;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        text-align: center;
-        color: #64748b;
-        font-size: 0.82rem;
-    }
-
-    /* Institutional SSO Bar & Session Badges */
-    .sso-ribbon {
-        background: #090e1a;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 12px 18px;
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .sso-user-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 14px;
-        border-radius: 8px;
-        font-size: 0.88rem;
-        font-weight: 700;
-    }
-
-    .sso-student-badge {
-        background: rgba(14, 165, 233, 0.15);
-        color: #38bdf8;
-        border: 1px solid rgba(14, 165, 233, 0.35);
-    }
-
-    .sso-admin-badge {
-        background: rgba(245, 158, 11, 0.15);
-        color: #fbbf24;
-        border: 1px solid rgba(245, 158, 11, 0.35);
-    }
-
-    .sso-guest-badge {
-        background: rgba(148, 163, 184, 0.15);
-        color: #cbd5e1;
-        border: 1px solid rgba(148, 163, 184, 0.35);
-    }
-
-    .admin-console-card {
-        background: #0d1527;
-        border: 1px solid rgba(56, 189, 248, 0.25);
-        border-radius: 14px;
-        padding: 22px;
-        margin-bottom: 20px;
-    }
-
-    .admin-status-pill {
-        display: inline-block;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.76rem;
-        font-weight: 700;
-        padding: 3px 10px;
-        border-radius: 6px;
-        text-transform: uppercase;
-    }
-
-    .status-approved {
-        background: rgba(34, 197, 94, 0.15);
-        color: #4ade80;
-        border: 1px solid rgba(34, 197, 94, 0.3);
-    }
-
-    .status-pending {
-        background: rgba(234, 179, 8, 0.15);
-        color: #facc15;
-        border: 1px solid rgba(234, 179, 8, 0.3);
-    }
-
-    .status-handed {
-        background: rgba(56, 189, 248, 0.15);
-        color: #38bdf8;
-        border: 1px solid rgba(56, 189, 248, 0.3);
-    }
-
-    .status-rejected {
-        background: rgba(239, 68, 68, 0.15);
-        color: #f87171;
-        border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-
+    /* Student ID Card */
     .student-id-card {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        border: 2px solid rgba(56, 189, 248, 0.4);
-        border-radius: 16px;
-        padding: 24px;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+        background: #ffffff !important;
+        border: 2px solid #e2e8f0 !important;
+        border-top: 4px solid #1d4ed8 !important;
+        border-radius: 16px !important;
+        padding: 24px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+        color: #0f172a !important;
     }
 
-    .student-id-card::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #38bdf8, #818cf8);
+    /* Official Clearance Certificate / Handover Voucher */
+    .cert-container {
+        background: #ffffff !important;
+        border: 2px solid #059669 !important;
+        border-radius: 16px !important;
+        padding: 26px !important;
+        color: #0f172a !important;
+        margin-top: 16px !important;
+        box-shadow: 0 8px 24px rgba(5, 150, 105, 0.12) !important;
+    }
+    .cert-stamp {
+        display: inline-block !important;
+        border: 2px dashed #059669 !important;
+        color: #059669 !important;
+        background: #ecfdf5 !important;
+        padding: 6px 14px !important;
+        border-radius: 8px !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-weight: 700 !important;
+        font-size: 0.82rem !important;
+        letter-spacing: 0.06em !important;
+        text-transform: uppercase !important;
+    }
+    .cert-token {
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 1.7rem !important;
+        font-weight: 800 !important;
+        color: #065f46 !important;
+        letter-spacing: 0.08em !important;
+        background: #f0fdf4 !important;
+        padding: 8px 18px !important;
+        border-radius: 10px !important;
+        display: inline-block !important;
+        margin: 10px 0 !important;
+        border: 1px solid #a7f3d0 !important;
     }
 
+    /* Broadcast Banner */
     .broadcast-banner {
-        background: linear-gradient(90deg, rgba(239, 68, 68, 0.18), rgba(245, 158, 11, 0.18));
-        border: 1px solid rgba(239, 68, 68, 0.45);
-        border-radius: 10px;
-        padding: 10px 16px;
-        margin-bottom: 16px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: #fecaca;
-        font-size: 0.88rem;
-    }
-
-    /* Institutional Trust & SSL Gateway Banner */
-    .inst-gateway-banner {
-        background: linear-gradient(90deg, #091426 0%, #0f1d36 50%, #091426 100%);
-        border: 1px solid rgba(56, 189, 248, 0.35);
-        border-radius: 10px;
-        padding: 9px 18px;
-        margin-bottom: 14px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    }
-
-    .gateway-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(16, 185, 129, 0.15);
-        color: #34d399;
-        padding: 3px 12px;
-        border-radius: 20px;
-        font-weight: 700;
-        font-size: 0.76rem;
-        letter-spacing: 0.05em;
-        border: 1px solid rgba(16, 185, 129, 0.35);
-    }
-
-    .gateway-text {
-        font-size: 0.83rem;
-        color: #cbd5e1;
-    }
-
-    .trust-pill {
-        background: rgba(255, 255, 255, 0.05);
-        color: #cbd5e1;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        padding: 3px 9px;
-        border-radius: 5px;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        display: inline-block;
-    }
-
-    /* Top Institutional Navigation Strip */
-    .inst-nav-strip {
-        background: #0b1220;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        padding: 10px 18px;
-        margin-bottom: 18px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .nav-links-left {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        flex-wrap: wrap;
-    }
-
-    .nav-item {
-        font-size: 0.82rem;
-        font-weight: 600;
-        color: #94a3b8;
-        padding: 4px 8px;
-        border-radius: 6px;
-        transition: all 0.2s ease;
-    }
-
-    .nav-item.active {
-        color: #38bdf8;
-        background: rgba(56, 189, 248, 0.1);
-    }
-
-    /* Purpose Statement Hero Card */
-    .purpose-hero-card {
-        background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.7) 100%);
-        border: 1px solid rgba(245, 158, 11, 0.25);
-        border-left: 4px solid #f59e0b;
-        border-radius: 12px;
-        padding: 14px 20px;
-        margin-bottom: 18px;
-        color: #e2e8f0;
-        font-size: 0.86rem;
-        line-height: 1.5;
+        background: #fffbeb !important;
+        border: 1px solid #fde68a !important;
+        border-left: 4px solid #d97706 !important;
+        border-radius: 10px !important;
+        padding: 11px 16px !important;
+        margin-bottom: 18px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        color: #92400e !important;
+        font-size: 0.88rem !important;
     }
 
     /* Form Controls Polish */
     .stTextInput input, .stTextArea textarea, .stSelectbox div[data-baseweb="select"] {
-        background-color: #0b1220 !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
         border-radius: 8px !important;
-        color: #f8fafc !important;
+        color: #0f172a !important;
     }
-
     .stTextInput input:focus, .stTextArea textarea:focus {
-        border-color: #38bdf8 !important;
-        box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2) !important;
+        border-color: #2563eb !important;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2) !important;
     }
 
     .stButton > button {
@@ -573,56 +304,72 @@ st.markdown("""
         transition: all 0.2s ease !important;
     }
 
-    /* Skeleton Loading State Shimmer */
-    @keyframes skeleton-shimmer {
-        0% { background-position: -200% 0; }
-        100% { background-position: 200% 0; }
+    /* Status Pills */
+    .badge-match {
+        background: #ecfdf5 !important;
+        color: #065f46 !important;
+        font-weight: 700 !important;
+        font-size: 0.85rem !important;
+        padding: 4px 12px !important;
+        border-radius: 6px !important;
+        border: 1px solid #a7f3d0 !important;
     }
 
-    .skeleton-loader {
-        background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%);
-        background-size: 200% 100%;
-        animation: skeleton-shimmer 1.8s infinite;
-        border-radius: 8px;
+    .status-approved {
+        background: #ecfdf5 !important;
+        color: #065f46 !important;
+        border: 1px solid #a7f3d0 !important;
     }
 
-    /* Domain Architecture Guide Box */
-    .domain-guide-box {
-        background: #080f1d;
-        border: 1px solid rgba(56, 189, 248, 0.25);
-        border-radius: 12px;
-        padding: 18px 22px;
-        margin-top: 10px;
-        font-size: 0.86rem;
+    .status-pending {
+        background: #fffbeb !important;
+        color: #92400e !important;
+        border: 1px solid #fde68a !important;
+    }
+
+    .status-handed {
+        background: #eff6ff !important;
+        color: #1e40af !important;
+        border: 1px solid #bfdbfe !important;
+    }
+
+    .status-rejected {
+        background: #fef2f2 !important;
+        color: #991b1b !important;
+        border: 1px solid #fecaca !important;
     }
 
     /* Rich University Multi-Column Footer */
+    .inst-footer {
+        margin-top: 48px;
+        padding: 32px 24px 20px 24px;
+        background: #0f172a;
+        border-radius: 16px;
+        color: #94a3b8;
+        font-size: 0.82rem;
+    }
     .univ-footer-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         gap: 28px;
         text-align: left;
-        padding: 32px 0 20px 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        margin-top: 48px;
     }
-
     .univ-footer-col h4 {
-        color: #fbbf24;
+        color: #f8fafc;
         font-size: 0.92rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         margin-bottom: 12px;
     }
-
     .univ-footer-col p, .univ-footer-col div {
-        color: #94a3b8;
+        color: #cbd5e1;
         font-size: 0.82rem;
         line-height: 1.6;
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 # ---------------------------------------------------------
 # Ensure Demo Images & ID Samples Exist
@@ -1037,120 +784,206 @@ if favicon_b64:
     """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# Official Institutional SSL & Gateway Trust Banner
+# Dynamic Browser Favicon & Title Injection
 # ---------------------------------------------------------
-st.markdown(f"""
-<div class="inst-gateway-banner">
-    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-        <span class="gateway-badge">🔒 TLS 1.3 256-BIT ENCRYPTED</span>
-        <span class="gateway-text">
-            Official Autonomous Gateway &bull; Node: <b>TKRCET-HYD-01</b> &bull; Production Mapping: <code>recovery.tkrcet.ac.in</code> &bull; College Code: <b>K9</b>
-        </span>
-    </div>
-    <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-        <span class="trust-pill" style="color:#fbbf24; border-color:rgba(245,158,11,0.35);">★ NAAC 'A+' GRADE</span>
-        <span class="trust-pill" style="color:#38bdf8; border-color:rgba(56,189,248,0.35);">UGC AUTONOMOUS</span>
-        <span class="trust-pill" style="color:#34d399; border-color:rgba(52,211,153,0.35);">JNTUH AFFILIATED</span>
-        <span class="trust-pill" style="color:#cbd5e1;">AICTE APPROVED</span>
-        <span class="trust-pill" style="color:#94a3b8;">ISO 9001:2015</span>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# ---------------------------------------------------------
-# Official TKR College Institutional Header
-# ---------------------------------------------------------
-crest_img_html = f'<img src="data:image/png;base64,{favicon_b64}" width="68" height="68" style="border-radius:50%; box-shadow:0 0 16px rgba(245,158,11,0.45); border:2px solid #f59e0b; flex-shrink:0;" />' if favicon_b64 else '🏛️'
-
-st.markdown(f"""
-<div class="college-header">
-    <div class="crest-container">
-        <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
-            {crest_img_html}
-            <div>
-                <div class="inst-sub">
-                    🏛️ TKR EDUCATIONAL SOCIETY &bull; ESTD. 2002
-                </div>
-                <h1 class="inst-name">
-                    TKR COLLEGE OF ENGINEERING & TECHNOLOGY
-                </h1>
-                <div style="font-size:0.92rem; font-weight:700; color:#38bdf8; margin-top:2px;">
-                    AUTONOMOUS INSTITUTION &bull; ACCREDITED BY NBA & NAAC 'A+' GRADE
-                </div>
-                <div class="inst-meta">
-                    Approved by AICTE, New Delhi &bull; Affiliated to JNTUH &bull; Medbowli, Meerpet, Balapur Mandal, Hyderabad &bull; PIN: 500097
-                </div>
-            </div>
-        </div>
-        <div class="portal-badge">
-            <div class="status-live">
-                <span class="pulse-dot"></span> NODE ACTIVE: TKRCET-HYD-01
-            </div>
-            <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin-top: 4px;">
-                CAMPUS RECOVERY PROTOCOL
-            </div>
-            <div style="font-size: 0.75rem; color: #cbd5e1;">
-                Institutional AI Lost & Found Repository
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="inst-nav-strip">
-    <div class="nav-links-left">
-        <span class="nav-item active">🏛️ Campus Overview</span>
-        <span class="nav-item">🪪 AI ID Card OCR</span>
-        <span class="nav-item">🎓 Student SSO Vault</span>
-        <span class="nav-item">🛡️ Security Command</span>
-        <span class="nav-item">🔎 Visual AI Search</span>
-        <span class="nav-item">🔐 ZK Verification</span>
-        <span class="nav-item">🗺️ Custody Desks & Map</span>
-    </div>
-    <div class="nav-links-right" style="font-size:0.8rem; color:#94a3b8;">
-        <span>📞 Security Command Hotline: <b style="color:#fbbf24;">+91 98490 12345</b></span> &bull; 
-        <span>📚 Library Desk: <b style="color:#38bdf8;">Ext. 204</b></span>
-    </div>
-</div>
-
-<div class="purpose-hero-card">
-    <b style="color:#fbbf24;">🏛️ Institutional Mission & Zero-Fraud Standard:</b> 
-    Official lost and found recovery network of TKR College of Engineering & Technology (Autonomous). Built to safeguard student personal belongings across campus grounds, automate lost student ID card & hall ticket recovery via computer vision OCR, and protect student privacy using cryptographic Zero-Knowledge claim verification.
-</div>
-""", unsafe_allow_html=True)
-
-with st.expander("🌐 Institutional Network Architecture & Custom Domain Mapping (recovery.tkrcet.ac.in)"):
-    st.markdown("""
-    <div class="domain-guide-box">
-        <div style="font-weight:700; color:#38bdf8; font-size:1.02rem; margin-bottom:8px;">
-            Institutional DNS & Production Tunnel Architecture
-        </div>
-        <p style="color:#cbd5e1; margin-bottom:12px;">
-            This deployment is routed through an encrypted Cloudflare HTTP/2 tunnel connected directly to the TKRCET on-premise security node.
-            In production, the college IT cell maps the official subdomain <b><code>recovery.tkrcet.ac.in</code></b> using a Cloudflare CNAME record with zero open inbound firewall ports.
-        </p>
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin-top:12px;">
-            <div style="background:#0e1726; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08);">
-                <b style="color:#fbbf24;">Step 1: Production CNAME</b><br>
-                <code style="font-size:0.78rem;">recovery.tkrcet.ac.in &rarr; CNAME tunnel.tkrcet.ac.in</code><br>
-                <small style="color:#94a3b8;">Cloudflare DNS enforces SSL/TLS 1.3 encryption.</small>
-            </div>
-            <div style="background:#0e1726; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08);">
-                <b style="color:#38bdf8;">Step 2: On-Premise Tunnel</b><br>
-                <code style="font-size:0.78rem;">cloudflared tunnel route dns &lt;TUNNEL-ID&gt; recovery.tkrcet.ac.in</code><br>
-                <small style="color:#94a3b8;">No port forwarding or public IP exposure required.</small>
-            </div>
-            <div style="background:#0e1726; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08);">
-                <b style="color:#34d399;">Step 3: Verification & Health</b><br>
-                <code style="font-size:0.78rem;">curl -I https://recovery.tkrcet.ac.in &rarr; 200 OK</code><br>
-                <small style="color:#94a3b8;">Instant failover across Cloudflare global edge network.</small>
-            </div>
-        </div>
-    </div>
+if favicon_b64:
+    st.markdown(f"""
+    <script>
+        document.title = "TKR College of Engineering & Technology (Autonomous) — Campus Recovery ERP";
+        var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/png';
+        link.rel = 'shortcut icon';
+        link.href = 'data:image/png;base64,{favicon_b64}';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
     """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# Active Campus Broadcast Alerts (If Any)
+# Left Sidebar Enterprise App Shell Navigation & Profile
 # ---------------------------------------------------------
+crest_img_html = f'<img src="data:image/png;base64,{favicon_b64}" width="60" height="60" style="border-radius:50%; box-shadow:0 0 12px rgba(245,158,11,0.4); border:2px solid #f59e0b; flex-shrink:0;" />' if favicon_b64 else '🏛️'
+
+st.sidebar.markdown(f"""
+<div style="padding: 6px 4px 14px 4px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
+    <div style="display:flex; justify-content:center; margin-bottom:8px;">
+        {crest_img_html}
+    </div>
+    <div style="font-family: 'Cinzel', serif; font-size: 0.98rem; font-weight: 700; color: #ffffff; line-height: 1.25;">
+        TKR COLLEGE OF ENGINEERING & TECHNOLOGY
+    </div>
+    <div style="font-size: 0.72rem; color: #fbbf24; font-weight: 700; letter-spacing: 0.06em; margin-top: 4px; text-transform: uppercase;">
+        Autonomous ERP &bull; JNTUH Code: K9
+    </div>
+    <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 2px;">
+        Campus Recovery & Property Management System
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+nav_items = [
+    "🏛️ Campus Live Desk",
+    "🪪 AI Document & Roll OCR",
+    "🔍 Visual AI Similarity Search",
+    "➕ Deposit / Report Item",
+    "🎒 Student Property Vault",
+    "🔐 Claim Ownership Verification",
+    "🏷️ Smart Belonging QR Tags",
+    "🛡️ Security Command Center",
+    "📢 Emergency Broadcasts",
+    "📜 Custody Audit & SOPs",
+    "🗺️ Campus Desks & Map"
+]
+
+if "erp_nav_selection" not in st.session_state:
+    st.session_state.erp_nav_selection = "🏛️ Campus Live Desk"
+
+st.sidebar.markdown("""
+<div style="font-size:0.7rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.06em; margin:14px 0 6px 6px;">
+    Campus Recovery Modules
+</div>
+""", unsafe_allow_html=True)
+
+default_nav_idx = 0
+if st.session_state.erp_nav_selection in nav_items:
+    default_nav_idx = nav_items.index(st.session_state.erp_nav_selection)
+
+nav_choice = st.sidebar.radio(
+    "Navigation",
+    nav_items,
+    index=default_nav_idx,
+    key="nav_radio_widget",
+    label_visibility="collapsed"
+)
+st.session_state.erp_nav_selection = nav_choice
+
+# Bottom User Session Card & Persona Switcher in Sidebar
+st.sidebar.markdown("---")
+curr_role = st.session_state.current_user.get("role", "student")
+curr_uid = st.session_state.current_user.get("id", "24K91A0501")
+
+if curr_role == "student":
+    st_info = st.session_state.student_directory.get(curr_uid, {
+        "name": "Rohan Sharma", "roll": curr_uid, "dept": "CSE"
+    })
+    user_initials = "".join([part[0] for part in st_info['name'].split()][:2]).upper()
+    user_name = st_info['name']
+    user_sub = f"HT: {st_info['roll']} &bull; {st_info['dept'].split('(')[0].strip()}"
+    role_pill = '<span style="background:rgba(37,99,235,0.25); color:#60a5fa; font-size:0.68rem; font-weight:700; padding:2px 8px; border-radius:4px; border:1px solid rgba(59,130,246,0.3);">🎓 STUDENT SSO</span>'
+elif curr_role == "admin":
+    adm_info = st.session_state.admin_directory.get(curr_uid, {
+        "name": "Officer Srinivas", "role_title": "Security Chief", "desk": "Gate 1 Post"
+    })
+    user_initials = "".join([part[0] for part in adm_info['name'].split()][:2]).upper()
+    user_name = adm_info['name']
+    user_sub = f"{adm_info['role_title']} &bull; {adm_info['desk']}"
+    role_pill = '<span style="background:rgba(217,119,6,0.25); color:#fbbf24; font-size:0.68rem; font-weight:700; padding:2px 8px; border-radius:4px; border:1px solid rgba(245,158,11,0.3);">🛡️ ADMIN COMMAND</span>'
+else:
+    user_initials = "GU"
+    user_name = "Campus Guest / Visitor"
+    user_sub = "Public Browsing Mode"
+    role_pill = '<span style="background:rgba(100,116,139,0.25); color:#cbd5e1; font-size:0.68rem; font-weight:700; padding:2px 8px; border-radius:4px; border:1px solid rgba(148,163,184,0.3);">👁️ PUBLIC GUEST</span>'
+
+st.sidebar.markdown(f"""
+<div style="background:rgba(15,23,42,0.95); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:12px; margin-top:4px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:34px; height:34px; border-radius:50%; background:#1d4ed8; color:#ffffff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.82rem; flex-shrink:0;">
+            {user_initials}
+        </div>
+        <div style="overflow:hidden;">
+            <div style="font-weight:700; font-size:0.85rem; color:#f8fafc; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">
+                {user_name}
+            </div>
+            <div style="font-size:0.72rem; color:#94a3b8; margin-top:1px;">
+                {user_sub}
+            </div>
+        </div>
+    </div>
+    <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:center;">
+        {role_pill}
+        <span style="font-size:0.68rem; color:#34d399; font-weight:700;">● TLS 1.3 SECURE</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+role_switch_options = [
+    "🎓 Student: Rohan Sharma (24K91A0501 - CSE)",
+    "🎓 Student: Priya Patel (24K91A0412 - ECE)",
+    "🛡️ Admin: Chief Security Officer (Gate 1)",
+    "📚 Admin: Chief Librarian K. V. Rao",
+    "👁️ Guest / Public Mode"
+]
+current_role_idx = 0
+if curr_role == "student" and curr_uid == "24K91A0412":
+    current_role_idx = 1
+elif curr_role == "admin" and curr_uid == "TKRCET-SEC-01":
+    current_role_idx = 2
+elif curr_role == "admin" and curr_uid == "TKRCET-LIB-01":
+    current_role_idx = 3
+elif curr_role == "guest":
+    current_role_idx = 4
+
+st.sidebar.markdown("<div style='font-size:0.72rem; color:#64748b; margin:8px 0 2px 4px; font-weight:600;'>Fast Role Switcher:</div>", unsafe_allow_html=True)
+new_role_choice = st.sidebar.selectbox(
+    "Switch Active Persona:",
+    role_switch_options,
+    index=current_role_idx,
+    label_visibility="collapsed",
+    key="sidebar_role_select"
+)
+if "Rohan" in new_role_choice and (curr_role != "student" or curr_uid != "24K91A0501"):
+    st.session_state.current_user = {"role": "student", "id": "24K91A0501"}
+    st.rerun()
+elif "Priya" in new_role_choice and (curr_role != "student" or curr_uid != "24K91A0412"):
+    st.session_state.current_user = {"role": "student", "id": "24K91A0412"}
+    st.rerun()
+elif "Chief Security" in new_role_choice and (curr_role != "admin" or curr_uid != "TKRCET-SEC-01"):
+    st.session_state.current_user = {"role": "admin", "id": "TKRCET-SEC-01"}
+    st.rerun()
+elif "Chief Librarian" in new_role_choice and (curr_role != "admin" or curr_uid != "TKRCET-LIB-01"):
+    st.session_state.current_user = {"role": "admin", "id": "TKRCET-LIB-01"}
+    st.rerun()
+elif "Guest" in new_role_choice and curr_role != "guest":
+    st.session_state.current_user = {"role": "guest", "id": "GUEST"}
+    st.rerun()
+
+# ---------------------------------------------------------
+# Main Canvas Top Breadcrumb Bar
+# ---------------------------------------------------------
+nav_display_names = {
+    "🏛️ Campus Live Desk": ("Operations Desk", "Campus Live Desk & Custody Inventory"),
+    "🪪 AI Document & Roll OCR": ("AI & Vision Tools", "Automated ID Card & Hall Ticket OCR"),
+    "🔍 Visual AI Similarity Search": ("AI & Vision Tools", "Multi-Modal Visual Similarity Matcher"),
+    "➕ Deposit / Report Item": ("Intake Desk", "Deposit Found Belonging / Report Lost Item"),
+    "🎒 Student Property Vault": ("Student Services", "Student Identity & Pre-Registered Property Vault"),
+    "🔐 Claim Ownership Verification": ("Student Services", "Zero-Knowledge Ownership Verification"),
+    "🏷️ Smart Belonging QR Tags": ("Asset Protection", "Privacy-Preserving QR Tag Generator"),
+    "🛡️ Security Command Center": ("Security & Proctorial", "Campus Security & Custody Command Center"),
+    "📢 Emergency Broadcasts": ("Campus Alerts", "Emergency Broadcasts & Push Webhooks"),
+    "📜 Custody Audit & SOPs": ("Institutional Governance", "Chain-of-Custody Audit Ledger & SOPs"),
+    "🗺️ Campus Desks & Map": ("Campus Navigation", "Campus Incident Spatial Map & Desks")
+}
+cat_name, view_title = nav_display_names.get(nav_choice, ("Operations Desk", nav_choice))
+
+st.markdown(f"""
+<div class="top-breadcrumb-bar">
+    <div class="breadcrumb-path">
+        <span>🏛️ TKRCET ERP</span>
+        <span style="color:#cbd5e1;">/</span>
+        <span>{cat_name}</span>
+        <span style="color:#cbd5e1;">/</span>
+        <span class="breadcrumb-active">{view_title}</span>
+    </div>
+    <div class="hotline-badge">
+        <span>📞 Security Post: <b style="color:#1d4ed8;">+91 98490 12345</b></span>
+        <span style="color:#cbd5e1;">&bull;</span>
+        <span>📚 Library Desk: <b style="color:#059669;">Ext. 204</b></span>
+        <span style="color:#cbd5e1;">&bull;</span>
+        <span style="color:#059669; font-weight:700;">🟢 NODE ONLINE</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# Active Campus Broadcast Alerts (If Any)
 if "broadcast_alerts" in st.session_state and st.session_state.broadcast_alerts:
     latest_bc = st.session_state.broadcast_alerts[0]
     st.markdown(f"""
@@ -1159,74 +992,200 @@ if "broadcast_alerts" in st.session_state and st.session_state.broadcast_alerts:
         <div>
             <b>CAMPUS URGENT BROADCAST [{latest_bc['priority']}]:</b> {latest_bc['title']} &bull; 
             <span>{latest_bc['message']}</span>
-            <span style="color:#94a3b8; font-size:0.75rem; margin-left:8px;">(Contact: {latest_bc['location']} Desk)</span>
+            <span style="color:#92400e; font-size:0.75rem; margin-left:8px;">(Contact: {latest_bc['location']} Desk)</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
+# =========================================================
+# MODULE 1: CAMPUS LIVE DESK (Main ERP Landing Workspace)
+# =========================================================
+if nav_choice == "🏛️ Campus Live Desk":
+    total_claims = len(st.session_state.claims_db)
+    resolved_claims = len([c for c in st.session_state.claims_db if "APPROVED" in c["status"] or "HANDED" in c["status"]])
 
-# ---------------------------------------------------------
-# Institutional Metric Dashboard
-# ---------------------------------------------------------
-total_claims = len(st.session_state.claims_db)
-resolved_claims = len([c for c in st.session_state.claims_db if "APPROVED" in c["status"] or "HANDED" in c["status"]])
-
-col_k1, col_k2, col_k3, col_k4 = st.columns(4)
-with col_k1:
+    # Institutional Mission Hero Card
     st.markdown("""
-    <div class="kpi-box">
-        <div class="kpi-number">97.8%</div>
-        <div class="kpi-title">Vision AI Match Accuracy</div>
-        <div class="kpi-subtext">Dual HSV + Contour Model</div>
-    </div>
-    """, unsafe_allow_html=True)
-with col_k2:
-    st.markdown("""
-    <div class="kpi-box">
-        <div class="kpi-number">100% Auto</div>
-        <div class="kpi-title">ID Card & Hall Ticket OCR</div>
-        <div class="kpi-subtext">Roll No & Email Extractor</div>
-    </div>
-    """, unsafe_allow_html=True)
-with col_k3:
-    st.markdown(f"""
-    <div class="kpi-box">
-        <div class="kpi-number">{total_claims} Queue</div>
-        <div class="kpi-title">Active Claims & Handover</div>
-        <div class="kpi-subtext">{resolved_claims} Verified & Ready</div>
-    </div>
-    """, unsafe_allow_html=True)
-with col_k4:
-    st.markdown("""
-    <div class="kpi-box">
-        <div class="kpi-number">5 Desks</div>
-        <div class="kpi-title">Authorized Custody Counters</div>
-        <div class="kpi-subtext">Medbowli Campus Verified</div>
+    <div class="purpose-hero-card">
+        <b style="color:#b45309;">🏛️ Institutional Mission & Zero-Fraud Standard:</b> 
+        Official lost and found recovery network of TKR College of Engineering & Technology (Autonomous). Built to safeguard student personal belongings across campus grounds, automate lost student ID card & hall ticket recovery via computer vision OCR, and protect student privacy using cryptographic Zero-Knowledge claim verification.
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+    # 4 Executive KPI Metric Cards (Clean Enterprise White Cards)
+    col_k1, col_k2, col_k3, col_k4 = st.columns(4)
+    with col_k1:
+        st.markdown("""
+        <div class="kpi-box">
+            <div class="kpi-number">97.8%</div>
+            <div class="kpi-title">Vision AI Match Precision</div>
+            <div class="kpi-subtext">Dual HSV + Contour Model</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col_k2:
+        st.markdown("""
+        <div class="kpi-box">
+            <div class="kpi-number">100% Auto</div>
+            <div class="kpi-title">ID Card & Hall Ticket OCR</div>
+            <div class="kpi-subtext">Roll No & Email Extractor</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col_k3:
+        st.markdown(f"""
+        <div class="kpi-box">
+            <div class="kpi-number">{total_claims} Queue</div>
+            <div class="kpi-title">Active Claims & Handover</div>
+            <div class="kpi-subtext">{resolved_claims} Verified & Ready</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col_k4:
+        st.markdown("""
+        <div class="kpi-box">
+            <div class="kpi-number">5 Desks</div>
+            <div class="kpi-title">Authorized Custody Counters</div>
+            <div class="kpi-subtext">Medbowli Campus Verified</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# Segmented Navigation Tabs
-# ---------------------------------------------------------
-tab_ocr, tab_student, tab_admin, tab_match, tab_claim, tab_map, tab_qr, tab_bot, tab_report, tab_policy = st.tabs([
-    "🪪 AI OCR ID Card Scanner",
-    "🎓 Student Profile & Belongings",
-    "🛡️ Admin Command Center & Desks",
-    "🔎 Visual AI Similarity Search",
-    "🔐 Student Claim Verification",
-    "🗺️ TKRCET Campus Desks & Map",
-    "🏷️ Smart Belonging QR Tag",
-    "💬 Automated Push Webhooks",
-    "📝 Deposit / Report Item",
-    "🏛️ Institutional SOP & Policy"
-])
+    st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
+
+    # Verified Items Currently in Safe Campus Custody
+    st.markdown("### 🏛️ Verified Items Currently in Safe Campus Custody")
+    st.markdown("Search verified belongings securely logged under CCTV surveillance across designated campus custody desks.")
+
+    col_s1, col_s2 = st.columns([2.5, 1.5])
+    with col_s1:
+        search_q = st.text_input("🔍 Search by item title, category, or custody token:", placeholder="e.g. Laptop, Casio, TKR-F101...", key="home_search_q")
+    with col_s2:
+        desk_filter = st.selectbox("Filter by Custody Desk:", [
+            "All Desks (Campus Wide)",
+            "Central Library — 2nd Floor Digital Wing",
+            "Main Food Court & Canteen",
+            "CSE & IT Block C (Lab 302 Desk)",
+            "TKR Indoor Sports Complex",
+            "Main Administrative Block & Gate 1"
+        ], key="home_desk_filter")
+
+    all_found = [item for item in st.session_state.items_db if item.get("type") == "FOUND"]
+    if desk_filter != "All Desks (Campus Wide)":
+        all_found = [item for item in all_found if desk_filter in item.get("location", "")]
+    if search_q.strip():
+        q_lower = search_q.strip().lower()
+        all_found = [item for item in all_found if q_lower in item.get("title", "").lower() or q_lower in item.get("id", "").lower() or q_lower in item.get("category", "").lower()]
+
+    if all_found:
+        for f_item in all_found:
+            with st.container():
+                st.markdown(f"""
+                <div class="portal-card" style="margin-bottom:12px; padding:18px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                        <div>
+                            <span style="font-family:'JetBrains Mono', monospace; font-weight:700; color:#1d4ed8; font-size:0.88rem; background:#eff6ff; padding:3px 9px; border-radius:6px; border:1px solid #bfdbfe;">
+                                {f_item['id']}
+                            </span>
+                            <span style="font-weight:700; font-size:1.05rem; color:#0f172a; margin-left:8px;">
+                                {f_item['title']}
+                            </span>
+                        </div>
+                        <span class="status-approved" style="font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:6px;">
+                            ● IN SAFE CUSTODY
+                        </span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+                c1, c2, c3, c4 = st.columns([1, 2.5, 2, 1.2])
+                with c1:
+                    st.image(f_item["image"], use_container_width=True)
+                with c2:
+                    st.markdown(f"**Classification:** {f_item.get('category', 'Belonging')}")
+                    st.markdown(f"🏛️ **Holding Counter:** {f_item['location']}")
+                with c3:
+                    st.markdown(f"👮 **Duty Officer:** {f_item.get('custody_officer', 'Campus Security')}")
+                    st.markdown(f"📅 **Logged:** {f_item.get('date', 'Recent')}")
+                with c4:
+                    if st.button("🔐 Verify Claim", key=f"home_claim_{f_item['id']}", use_container_width=True, type="primary"):
+                        st.session_state.active_claim_id = f_item['id']
+                        st.session_state.erp_nav_selection = "🔐 Claim Ownership Verification"
+                        st.rerun()
+    else:
+        st.info("ℹ️ No items match the specified search or desk filter criteria.")
+
+    st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
+
+    # Quick Recovery Services Action Cards
+    st.markdown("#### ⚡ Quick Institutional Recovery Actions")
+    q1, q2, q3 = st.columns(3)
+    with q1:
+        st.markdown("""
+        <div class="portal-card" style="text-align:center; padding:22px;">
+            <div style="font-size:2.2rem; margin-bottom:8px;">🪪</div>
+            <div style="font-weight:700; font-size:1.05rem; color:#0f172a;">AI ID Card OCR</div>
+            <div style="font-size:0.82rem; color:#64748b; margin-top:4px; line-height:1.45;">Auto-extract student roll number & dispatch instant recovery notification to official email.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Launch ID OCR Scanner", key="home_btn_ocr", use_container_width=True):
+            st.session_state.erp_nav_selection = "🪪 AI Document & Roll OCR"
+            st.rerun()
+    with q2:
+        st.markdown("""
+        <div class="portal-card" style="text-align:center; padding:22px;">
+            <div style="font-size:2.2rem; margin-bottom:8px;">🔍</div>
+            <div style="font-weight:700; font-size:1.05rem; color:#0f172a;">Visual Similarity Match</div>
+            <div style="font-size:0.82rem; color:#64748b; margin-top:4px; line-height:1.45;">Compare lost item snapshot with repository using multi-modal HSV & contour vision AI.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Launch Visual AI Search", key="home_btn_vis", use_container_width=True):
+            st.session_state.erp_nav_selection = "🔍 Visual AI Similarity Search"
+            st.rerun()
+    with q3:
+        st.markdown("""
+        <div class="portal-card" style="text-align:center; padding:22px;">
+            <div style="font-size:2.2rem; margin-bottom:8px;">➕</div>
+            <div style="font-weight:700; font-size:1.05rem; color:#0f172a;">Deposit Found Belonging</div>
+            <div style="font-size:0.82rem; color:#64748b; margin-top:4px; line-height:1.45;">Log newly found belonging into custody counter with zero-knowledge verification setup.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Deposit / Report Item", key="home_btn_dep", use_container_width=True):
+            st.session_state.erp_nav_selection = "➕ Deposit / Report Item"
+            st.rerun()
+
+    st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
+
+    with st.expander("🌐 Institutional Network Architecture & Custom Domain Mapping (recovery.tkrcet.ac.in)"):
+        st.markdown("""
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px 22px; font-size:0.86rem; color:#334155;">
+            <div style="font-weight:700; color:#1d4ed8; font-size:1.02rem; margin-bottom:8px;">
+                Institutional DNS & Production Tunnel Architecture
+            </div>
+            <p style="margin-bottom:12px; line-height:1.5;">
+                This deployment is routed through an encrypted Cloudflare HTTP/2 tunnel connected directly to the TKRCET on-premise security node.
+                In production, the college IT cell maps the official subdomain <b><code>recovery.tkrcet.ac.in</code></b> using a Cloudflare CNAME record with zero open inbound firewall ports.
+            </p>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:14px; margin-top:12px;">
+                <div style="background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0;">
+                    <b style="color:#d97706;">Step 1: Production CNAME</b><br>
+                    <code style="font-size:0.78rem;">recovery.tkrcet.ac.in &rarr; CNAME tunnel.tkrcet.ac.in</code><br>
+                    <small style="color:#64748b;">Cloudflare DNS enforces SSL/TLS 1.3 encryption.</small>
+                </div>
+                <div style="background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0;">
+                    <b style="color:#1d4ed8;">Step 2: On-Premise Tunnel</b><br>
+                    <code style="font-size:0.78rem;">cloudflared tunnel route dns &lt;TUNNEL-ID&gt; recovery.tkrcet.ac.in</code><br>
+                    <small style="color:#64748b;">No port forwarding or public IP exposure required.</small>
+                </div>
+                <div style="background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0;">
+                    <b style="color:#059669;">Step 3: Verification & Health</b><br>
+                    <code style="font-size:0.78rem;">curl -I https://recovery.tkrcet.ac.in &rarr; 200 OK</code><br>
+                    <small style="color:#64748b;">Instant failover across Cloudflare global edge network.</small>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # =========================================================
-# TAB 1: AI OCR ID Card & Hall Ticket Scanner (NEW FEATURE)
+# MODULE 2: AI OCR ID CARD & HALL TICKET SCANNER
 # =========================================================
-with tab_ocr:
+elif nav_choice == "🪪 AI Document & Roll OCR":
+
     st.markdown("### 🪪 Automated AI OCR for College ID Cards & Hall Tickets")
     st.markdown(
         "**Zero Manual Typing:** When someone finds a lost student ID card, hall ticket, or library book on campus and uploads a photo, "
@@ -1337,7 +1296,7 @@ with tab_ocr:
 # =========================================================
 # TAB 2: Student Profile & Belongings Registry (SSO FEATURE)
 # =========================================================
-with tab_student:
+elif nav_choice == "🎒 Student Property Vault":
     st.markdown("### 🎓 Student Profile & Belongings Protection Vault")
     st.markdown(
         "Manage your official student credentials, contact details for instant recovery dispatches, "
@@ -1501,7 +1460,7 @@ with tab_student:
 # =========================================================
 # TAB 3: Admin Command Center & Desk Operations (MAJOR WORKS)
 # =========================================================
-with tab_admin:
+elif nav_choice == "🛡️ Security Command Center":
     st.markdown("### 🛡️ TKRCET Campus Security & Custody Command Center")
     st.markdown(
         "Institutional control console for Campus Security Proctors, Chief Librarians, and Department Custodians. "
@@ -1787,7 +1746,7 @@ with tab_admin:
 # =========================================================
 # TAB 4: Visual AI Similarity Search
 # =========================================================
-with tab_match:
+elif nav_choice == "🔍 Visual AI Similarity Search":
     st.markdown("### Autonomous Multi-Modal Visual Matching")
     st.markdown(
         "Upload or select an item photo. The OpenCV chromatic HSV and structural contour engine scans the active "
@@ -1876,7 +1835,7 @@ with tab_match:
 # =========================================================
 # TAB 3: Student Claim & Verification
 # =========================================================
-with tab_claim:
+elif nav_choice == "🔐 Claim Ownership Verification":
     st.markdown("### Zero-Knowledge Ownership Verification")
     st.markdown(
         "To prevent opportunistic and fraudulent claims of expensive belongings, finder contact details are completely masked. "
@@ -2019,11 +1978,63 @@ with tab_claim:
                         <div><b>Issued Timestamp:</b> {datetime.now().strftime("%d-%b-%Y %H:%M")}</div>
                     </div>
                     <hr style="border-color: rgba(255,255,255,0.2); margin: 12px 0;">
-                    <small style="color: #d1fae5;">
+                    <small style="color: #065f46; font-weight:600;">
                         Present this digital token along with your original <b>TKR College Student ID Card</b> at the designated collection desk to complete physical handover.
                     </small>
                 </div>
                 """, unsafe_allow_html=True)
+
+                voucher_html = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TKRCET Official Handover Clearance Slip - {token_id}</title>
+    <style>
+        body {{ font-family: 'Helvetica Neue', Arial, sans-serif; padding: 40px; color: #0f172a; max-width: 650px; margin: 0 auto; }}
+        .header {{ text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 16px; margin-bottom: 20px; }}
+        .title {{ font-size: 18px; font-weight: bold; color: #1e3a8a; }}
+        .sub {{ font-size: 12px; color: #b45309; font-weight: bold; margin-top: 4px; text-transform: uppercase; }}
+        .token-box {{ background: #ecfdf5; border: 2px dashed #059669; padding: 14px; text-align: center; margin: 20px 0; border-radius: 8px; }}
+        .token {{ font-family: monospace; font-size: 24px; font-weight: bold; color: #065f46; letter-spacing: 2px; }}
+        table {{ width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }}
+        td {{ padding: 8px; border-bottom: 1px solid #e2e8f0; }}
+        td.label {{ font-weight: bold; color: #475569; width: 40%; }}
+        .footer {{ margin-top: 30px; font-size: 11px; color: #64748b; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 12px; }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">TKR COLLEGE OF ENGINEERING & TECHNOLOGY (AUTONOMOUS)</div>
+        <div class="sub">Campus Recovery & Property Management System &bull; Handover Clearance Pass</div>
+    </div>
+    <div class="token-box">
+        <div style="font-size: 11px; text-transform: uppercase; font-weight: bold; color: #059669;">Verified Clearance Token</div>
+        <div class="token">{token_id}</div>
+        <div style="font-size: 11px; color: #065f46; margin-top: 4px;">Valid for 24 Hours &bull; Present at Counter with Student ID</div>
+    </div>
+    <table>
+        <tr><td class="label">Item Description:</td><td>{claim_item_data['title']}</td></tr>
+        <tr><td class="label">Custody Token ID:</td><td>{claim_item_data['id']}</td></tr>
+        <tr><td class="label">Authorized Student:</td><td>{claimant_name}</td></tr>
+        <tr><td class="label">Roll Number:</td><td>{claimant_roll}</td></tr>
+        <tr><td class="label">Department:</td><td>{claimant_branch}</td></tr>
+        <tr><td class="label">Designated Custody Counter:</td><td>{claim_item_data['location']}</td></tr>
+        <tr><td class="label">Custody Duty Officer:</td><td>{claim_item_data.get('custody_officer', 'Campus Security')}</td></tr>
+        <tr><td class="label">Issued Timestamp:</td><td>{datetime.now().strftime('%d-%b-%Y %H:%M:%S')}</td></tr>
+    </table>
+    <div class="footer">
+        This document is cryptographically verified by TKRCET Zero-Knowledge Sentinel. Non-transferable.<br>
+        Medbowli, Meerpet, Balapur Mandal, Hyderabad &bull; Contact Security Gate 1: +91 98490 12345
+    </div>
+</body>
+</html>"""
+                st.download_button(
+                    label="📄 Download Printable Official Handover Pass (HTML / Print)",
+                    data=voucher_html,
+                    file_name=f"TKRCET_Clearance_Pass_{token_id}.html",
+                    mime="text/html",
+                    use_container_width=True
+                )
             else:
                 st.error("❌ VERIFICATION REJECTED: The attribute provided does not match ground truth.")
                 st.info("Sentinel: False or brute-force attempts are logged with your student IP and Roll Number.")
@@ -2034,7 +2045,7 @@ with tab_claim:
 # =========================================================
 # TAB 4: TKRCET Campus Desks & Map
 # =========================================================
-with tab_map:
+elif nav_choice == "🗺️ Campus Desks & Map":
     st.markdown("### TKR College of Engineering & Technology — Campus Incident Map")
     st.markdown(
         "Geographic distribution of active incidents across the TKRCET Medbowli campus. "
@@ -2067,7 +2078,7 @@ with tab_map:
 # =========================================================
 # TAB 5: Smart Belonging QR Tag Generator
 # =========================================================
-with tab_qr:
+elif nav_choice == "🏷️ Smart Belonging QR Tags":
     st.markdown("### Smart Belonging Privacy-Preserving QR Tag Generator")
     st.markdown(
         "Generate a downloadable, printable QR sticker for your laptops, calculators, notebooks, and ID cards. "
@@ -2118,7 +2129,7 @@ with tab_qr:
 # =========================================================
 # TAB 6: Automated Push Webhooks
 # =========================================================
-with tab_bot:
+elif nav_choice == "📢 Emergency Broadcasts":
     st.markdown("### Automated WhatsApp & Telegram Webhook Simulator")
     st.markdown(
         "Students rarely check web portals daily. When our Vision AI registers a visual match (≥75%), "
@@ -2174,7 +2185,7 @@ with tab_bot:
 # =========================================================
 # TAB 7: Deposit / Report Item
 # =========================================================
-with tab_report:
+elif nav_choice == "➕ Deposit / Report Item":
     st.markdown("### Official Incident Intake & Item Registration")
     st.markdown("All deposits trigger automatic background Vision AI scans across active college registries.")
 
@@ -2235,7 +2246,7 @@ with tab_report:
 # =========================================================
 # TAB 8: Institutional SOP & Policy
 # =========================================================
-with tab_policy:
+elif nav_choice == "📜 Custody Audit & SOPs":
     st.markdown("### TKR College of Engineering & Technology — Standard Operating Procedure (SOP)")
     
     col_sop1, col_sop2 = st.columns(2, gap="large")
